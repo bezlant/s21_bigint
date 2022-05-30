@@ -15,9 +15,6 @@ jobs:
     - uses: actions/checkout@v3
  
     - name: Build Container
-      run: |
-      cd src/docker
-      chmod +x run_daemon.sh
-      ./run_daemon.sh
+      run: cd src/docker && chmod +x run_daemon.sh && ./run_daemon.sh
  
   

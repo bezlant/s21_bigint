@@ -6,8 +6,11 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # PARTICULAR PURPOSE.
 
 # This program built for i386-apple-darwin11.3.0
+ 
+make: *** No rule to make target `all'.  Stop.
 
-# Make data base, printed on Sun May 29 16:59:10 2022
+
+# Make data base, printed on Mon May 30 17:52:38 2022
 
 # Variables
 
@@ -15,6 +18,10 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 <D = $(patsubst %/,%,$(dir $<))
 # automatic
 ?F = $(notdir $?)
+# environment
+ELECTRON_NO_ATTACH_CONSOLE = 1
+# environment
+LC_CTYPE = UTF-8
 # environment
 VSCODE_LOG_NATIVE = false
 # automatic
@@ -24,11 +31,11 @@ VSCODE_LOG_NATIVE = false
 # automatic
 @F = $(notdir $@)
 # makefile
-CURDIR := /Users/capricey/int96_implementation
+CURDIR := /Users/posidoni/s21_decimal
 # makefile
 SHELL = /bin/sh
 # environment
-VSCODE_NLS_CONFIG = {"locale":"ru","availableLanguages":{},"_languagePackSupport":true}
+VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
 # environment
 _ = /usr/bin/make
 # makefile
@@ -38,11 +45,11 @@ VSCODE_VERBOSE_LOGGING = true
 # environment
 __CFBundleIdentifier = com.microsoft.VSCode
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/zz/zyxvpxvq6csfxvn_n00026lm000jmx/T/vscode-ipc-d230bef3-2f5b-4f71-ab4e-57c9972b4943.sock
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/zz/zyxvpxvq6csfxvn_n00025gr000jby/T/vscode-ipc-1492ccaf-4138-4e76-944a-3097687a95b8.sock
 # environment
-VSCODE_CWD = /
+VSCODE_CWD = /Users/posidoni
 # environment
-PATH = /Users/capricey/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin
+PATH = /Users/posidoni/.brew/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin:/Users/posidoni/.brew/bin/
 # environment
 LSCOLORS = Gxfxcxdxbxegedabagacad
 # environment
@@ -54,67 +61,77 @@ ELECTRON_RUN_AS_NODE = 1
 # default
 .FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.J7HJtn66IK/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.474mHvmmSs/Listeners
 # environment
 CPLUS_INCLUDE_PATH = /usr/local/include/
 # automatic
 %F = $(notdir $%)
 # environment
-HOMEBREW_TEMP = /tmp/capricey/Homebrew/Temp
+HOMEBREW_TEMP = /tmp/posidoni/Homebrew/Temp
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
-PWD = /Users/capricey/int96_implementation
+PWD = /Users/posidoni/s21_decimal
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = undefined
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
-HOME = /Users/capricey
+HOME = /Users/posidoni
 # default
 MAKEFILEPATH := /Applications/Xcode.app/Contents/Developer/Makefiles
 # environment
-VSCODE_CODE_CACHE_PATH = /Users/capricey/Library/Application Support/Code/CachedData/dfd34e8260c270da74b5c2d86d61aee4b6d56977
+VSCODE_CLI = 1
 # environment
-LOGNAME = capricey
+VSCODE_CODE_CACHE_PATH = /Users/posidoni/Library/Application Support/Code/CachedData/dfd34e8260c270da74b5c2d86d61aee4b6d56977
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+LOGNAME = posidoni
 # environment
-ZSH = /Users/capricey/.oh-my-zsh
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+# environment
+ZSH = /Users/posidoni/.oh-my-zsh
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
 # environment
 XPC_FLAGS = 0x0
+# environment
+COLORTERM = truecolor
 # default
 MAKE = $(MAKE_COMMAND)
-# default
-MAKECMDGOALS := all
 # environment
-HOMEBREW_CACHE = /tmp/capricey/Homebrew/Caches
+LC_TERMINAL = iTerm2
 # environment
-SHLVL = 1
+HOMEBREW_CACHE = /tmp/posidoni/Homebrew/Caches
+# environment
+SHLVL = 3
 # default
 MAKE_VERSION := 3.81
 # environment
-USER = capricey
+USER = posidoni
 # makefile
 .DEFAULT_GOAL := 
+# default
+MAKECMDGOALS := all
+# environment
+TERM_SESSION_ID = w0t0p0:B5DE0E3F-3B6B-4233-AB47-FDB1807F1299
 # environment
 LESS = -R
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
 # default
 MAKE_COMMAND := /Applications/Xcode.app/Contents/Developer/usr/bin/make
+# environment
+TERM_PROGRAM = iTerm.app
 # default
 .VARIABLES := 
 # environment
-TMPDIR = /var/folders/zz/zyxvpxvq6csfxvn_n00026lm000jmx/T/
+TMPDIR = /var/folders/zz/zyxvpxvq6csfxvn_n00025gr000jby/T/
 # automatic
 *F = $(notdir $*)
 # environment
-VSCODE_IPC_HOOK = /Users/capricey/Library/Application Support/Code/1.66.2-main.sock
+VSCODE_IPC_HOOK = /Users/posidoni/Library/Application Support/Code/1.66.2-main.sock
 # makefile
 MAKEFLAGS = Rrqp
 # environment
@@ -122,19 +139,29 @@ MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
-XPC_SERVICE_NAME = application.com.microsoft.VSCode.12886101968.12886102170
+TERM_PROGRAM_VERSION = 3.4.15
+# environment
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.12886798721.12886798929.A311B4C7-D5F4-46FD-AC8C-995DF82B2FC7
+# environment
+LC_TERMINAL_VERSION = 3.4.15
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # automatic
 +F = $(notdir $+)
 # environment
-__CF_USER_TEXT_ENCODING = 0x469D:0x0:0x0
+ITERM_SESSION_ID = w0t0p0:B5DE0E3F-3B6B-4233-AB47-FDB1807F1299
+# environment
+COLORFGBG = 7;0
+# environment
+__CF_USER_TEXT_ENCODING = 0x457E:0:0
 # environment
 COMMAND_MODE = unix2003
 # default
 MAKEFILES := 
 # automatic
 <F = $(notdir $<)
+# environment
+ITERM_PROFILE = Default
 # environment
 PAGER = less
 # environment
@@ -152,9 +179,11 @@ MAKELEVEL := 0
 # environment
 LANG = C
 # environment
-VSCODE_PID = 33968
+TERM = xterm-256color
+# environment
+VSCODE_PID = 46943
 # variable set hash-table stats:
-# Load=71/1024=7%, Rehash=0, Collisions=2/92=2%
+# Load=84/1024=8%, Rehash=0, Collisions=5/105=5%
 
 # Pattern-specific Variable Values
 
@@ -162,9 +191,9 @@ VSCODE_PID = 33968
 
 # Directories
 
-# . (device 16777230, inode 60561): 9 files, no impossibilities.
+# . (device 16777230, inode 1356569): 13 files, no impossibilities.
 
-# 9 files, no impossibilities in 1 directories.
+# 13 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -236,8 +265,6 @@ GNUmakefile:
 # strcache size: total = 0 / max = 0 / min = 4096 / avg = 0
 # strcache free: total = 0 / max = 0 / min = 4096 / avg = 0
 
-# Finished Make data base on Sun May 29 16:59:10 2022
+# Finished Make data base on Mon May 30 17:52:38 2022
 
  
-make: *** No rule to make target `all'.  Stop.
-

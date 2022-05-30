@@ -1,6 +1,6 @@
-make --dry-run --always-make --keep-going --print-directory
-make: Entering directory `/Users/capricey/int96_implementation'
-make: Leaving directory `/Users/capricey/int96_implementation'
+make --dry-run --keep-going --print-directory
+make: Entering directory `/Users/posidoni/s21_decimal'
+make: Leaving directory `/Users/posidoni/s21_decimal'
  
 make: *** No targets specified and no makefile found.  Stop.
 

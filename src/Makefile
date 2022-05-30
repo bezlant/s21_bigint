@@ -31,9 +31,9 @@ GCNO=$(shell find $(TEST_OBJ_DIR) -maxdepth 1 -name "*.gcno")
 
 VPATH:=$(MODULES)
 
-AR:= ar rc
-RAN:= ranlib
-RM:= rm -f
+AR:=ar rc
+RAN:=ranlib
+RM:=rm -f
 MK:=mkdir -p
 
 ASAN:=#-fsanitize=address

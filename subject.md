@@ -1,32 +1,3 @@
-# S21_Decimal
-
-## Table of contents
-* [General info](https://github.com/AndreyZhelannikov/s21_decimal/tree/main#general-info)
-* [Goal & requirements](https://github.com/AndreyZhelannikov/s21_decimal/tree/main#goal--requirements)
-* [Key learnings](https://github.com/AndreyZhelannikov/s21_decimal/tree/main#key-learnings)
-* [Build](https://github.com/AndreyZhelannikov/s21_decimal/tree/main#build)
-* [Credits](https://github.com/AndreyZhelannikov/s21_decimal/tree/main#credits)
-
-## General info 
-
-Implementation of `decimal` value type in C language. This type represents 96-bit signed real number featuring opratinons without floating point imprecision. The library also provides an API for working with this type.
-
-## Goal & requirements
-
-In this project our task was to implement `decimal` type, that is 96-bit signed real number, and provide an API for working with it.
-
-This type may be used instead of `IEEE 754` floats for calculations where floating point imprecision is unacceptable, for example, in financial transactions. 
-
-`Decimal` also may be used as an analogue to Java `BigInteger` or 'BigInt' in JavaScript for scientific calculations.
-
-## Key learnings
-- Got familiar with basic matrices processing functions & their implementation
-- Became more confident with using recursion (used for `determinant`, `calc_complements`, `inverse_matrix`)
-- Discovered [GSL](https://www.gnu.org/software/gsl/) & used it for testing my functions
-- Tried out Python & [Numpy](https://github.com/numpy/numpy) for testing correctness of my calculations
-
-## Specification of `decimal`
-
 # s21_decimal 
 
 > При старте работы над проектом просим вас постараться хронометрировать время работы над проектом.
@@ -209,15 +180,3 @@ The functions of the decimal.h library described [above](#information) must be i
 - It is forbidden to use the __int128 type
 - Trailing zeros can be as preserved as deleted (except for the `s21_truncate` function)
 - The defined type must support numbers from -79,228,162,514,264,337,593,543,950,335 to +79,228,162,514,264,337,593,543,950,335.
-
-## Build
-
-```
-$ git clone ..
-$ cd repo/src/
-$ make
-```
-
-## Credits
-- Developers: [Mikhail Kuznetsov (@posidoni)](https://github.com/AndreyZhelannikov), [Andrey Jhelannikov(@capricey)](https://github.com/AndreyZhelannikov), [Stepan Fedorov (@nanadaug)](https://github.com/co-cy), [Anton Bezludniy(@tarticar)](https://github.com/bezlant).
-- SC21 for providing this task as a part of our curriculum 🙂💚

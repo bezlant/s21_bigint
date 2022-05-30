@@ -16,6 +16,8 @@ jobs:
  
     - name: Build Container
       run: |
-      cd src/docker && chmod +x run_daemon.sh && ./run_daemon.sh
+      cd src/docker
+      chmod +x run_daemon.sh
+      ./run_daemon.sh
  
   

@@ -18,7 +18,7 @@ RUN apk --no-cache --upgrade add \
 
 RUN mkdir /s21_decimal
 
-COPY ../ /s21_decimal
+COPY . /s21_decimal
 
 WORKDIR "/s21_decimal/docker"
 

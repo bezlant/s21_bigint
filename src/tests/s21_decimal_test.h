@@ -11,9 +11,19 @@
 #define BHRED "\e[1;91m"
 
 #include <check.h>
+#include <time.h>
 
 #include "../s21_decimal.h"
 
+int reverse_bits_int(int in);
+void print_bits_set(s21_decimal d, int set_n);
+void print_bits_r_set(s21_decimal d, int set_n);
+int get_rand(int min, int max);
+s21_decimal get_random_int_decimal(void);
+void print_bits(s21_decimal d);
+void print_bits_r(s21_decimal d);
+
+/* Suites */
 Suite *suite_s21_add(void);
 Suite *suite_s21_sub(void);
 Suite *suite_s21_mul(void);
@@ -36,8 +46,5 @@ Suite *suite_s21_negate(void);
 
 void run_tests(void);
 void run_testcase(Suite *testcase);
-
-void print_bits(s21_decimal d);
-void print_bits_r(s21_decimal d);
 
 #endif  //  TEST

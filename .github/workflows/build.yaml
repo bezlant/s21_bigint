@@ -2,27 +2,13 @@ name: Build Pipeline
 
 on:
   push:
-    branches: [ develop, feat/ci_cd ]
+    branches: [ develop ]
   pull_request:
-    branches: [ develop, feat/ci_cd ]
+    branches: [ develop ]
 
-jobs:
-  build_ubuntu:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Install dependencies
-      run: sudo apt install check
-
-    - name: Build with Make & launch tests
-      working-directory: ${{github.workspace}}/docker
-      run: |
-        chmod +x test_s21_decimal.sh
-        ./test_s21_decimal.sh
-        
+jobs:   
   build_macos:
+    name: Build on Mac
     runs-on: macos-latest
 
     steps:
@@ -38,6 +24,7 @@ jobs:
         ./test_s21_decimal.sh
     
   build_docker:
+    name: Build on Docker Container (Apline Linux)
     runs-on: ubuntu-latest
 
     steps:

@@ -13,6 +13,18 @@ int reverse_bits_int(int in) {
     return res;
 }
 
+unsigned int reverse_bits_u32(unsigned int n) {
+    unsigned int res = 0;
+    for (int i = 0; i < 32; i++) {
+        res = res << 1;
+        res = res | (n & 1);
+
+        n = n >> 1;
+    }
+
+    return res;
+}
+
 void print_bits(s21_decimal d) {
     for (int i = 0; i < 3; i++) {
         int x = 3;

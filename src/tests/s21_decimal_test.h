@@ -14,6 +14,7 @@
 #include <time.h>
 
 #include "../s21_decimal.h"
+#include "../gmp.h"
 
 int reverse_bits_int(int in);
 void print_bits_set(s21_decimal d, int set_n);

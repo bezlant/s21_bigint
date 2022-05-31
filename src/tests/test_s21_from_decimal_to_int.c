@@ -58,82 +58,24 @@ END_TEST;
 START_TEST(exp_decimals_to_int_gmp) {
     int got = 1;
     s21_decimal in = {0};
+    mpz_t in_npz_copy;
 
-    char npz_bin_str[1024] = {'\0'};
+    int flag = s21_get_random_decimal_and_npz_copy(&in, &in_npz_copy);
 
-    for (int j = 0, m = 0; j < 4; j++) {
-        for (int i = 0; i < 32; i++) {
-            int bit = (rand() % 2);
+    /* If the conversion from string to NPZ was successfull */
 
-            SET_BIT(in.bits[j], bit, i);
+    if (!flag) {
+        int expected = 13333333;
+        expected = mpz_get_si(in_npz_copy);
+        mpz_clear(in_npz_copy);
 
-            if (bit) {
-                npz_bin_str[m] = '1';
-            } else {
-                npz_bin_str[m] = '0';
-            }
-            m++;
-        }
+        int code = s21_from_decimal_to_int(in, &got);
+
+        ck_assert_int_eq(code, ARITHMETIC_OK);
+        ck_assert_int_eq(got, expected);
+    } else {
+        mpz_clear(in_npz_copy);
     }
-
-    for (int j = 0; j < 3; j++) {
-        in.bits[j] = reverse_bits_u32(in.bits[j]);
-    }
-
-    printf("%s \n\n\n", npz_bin_str);
-
-    int exp = get_rand(0, 25);
-    set_exponent(&in, exp);
-
-    mpz_t n;
-
-    mpz_init(n);
-    char str[] = "10101010";
-    mpz_set_ui(n, 0); /* UI - Unsigned int, SI - signed int */
-    int flag = mpz_set_str(n, npz_bin_str, 2);
-    printf("FLAG FLAG FLAG %d \n\n\n", flag);
-
-    /* https://gmplib.org/manual/Integer-Division */
-
-    mpz_t z;
-    mpz_init(z);
-    mpz_set_ui(z, 0);
-
-    mpz_t desyat;
-    mpz_init(desyat);
-    mpz_set_ui(desyat, 10);
-
-    printf("\n");
-    printf("\n");
-    printf("======= N =============\n");
-    mpz_out_str(stdout, 10, n);
-    printf("\n======= TEN =============\n");
-    mpz_out_str(stdout, 10, desyat);
-    printf("\n========= Z ==========\n");
-    mpz_out_str(stdout, 10, z);
-    printf("\n=====================\n");
-    printf("\n");
-    printf("\n");
-
-    mpz_fdiv_q(z, n, desyat);
-
-    // void mpz_fdiv_q(mpz_t q, const mpz_t n, const mpz_t d)
-
-    printf("\n");
-    printf("\n");
-    printf("======= N =============\n");
-    mpz_out_str(stdout, 10, n);
-    printf("\n======= TEN =============\n");
-    mpz_out_str(stdout, 10, desyat);
-    printf("\n========= Z ==========\n");
-    mpz_out_str(stdout, 10, z);
-    printf("\n=====================\n");
-    printf("\n");
-    printf("\n");
-
-    int code = s21_from_decimal_to_int(in, &got);
-    ck_assert_int_eq(code, ARITHMETIC_OK);
-    ck_assert_int_eq(got, n);
 }
 END_TEST;
 
@@ -141,11 +83,13 @@ Suite *suite_s21_from_decimal_to_int(void) {
     Suite *s = suite_create("suite_s21_from_decimal_to_int");
     TCase *tc = tcase_create("s21_from_decimal_to_int_tc");
 
+    /* Quite often decimals with exponent are converted to 0 */
+    /* This is correct, as we may have no integer part (only fractional) */
     tcase_add_loop_test(tc, no_exp_decimals_to_int, 0, 100);
+    tcase_add_loop_test(tc, exp_decimals_to_int_gmp, 0, 5);
     tcase_add_test(tc, exp_decimals_to_int_hardcoded1);
     tcase_add_test(tc, exp_decimals_to_int_hardcoded2);
     tcase_add_test(tc, exp_decimals_to_int_hardcoded3);
-    tcase_add_loop_test(tc, exp_decimals_to_int_gmp, 0, 5);
 
     suite_add_tcase(s, tc);
     return s;

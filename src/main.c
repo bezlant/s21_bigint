@@ -22,7 +22,7 @@ void run_testcase(Suite *testcase) {
 
     SRunner *sr = srunner_create(testcase);
 
-    // srunner_set_fork_status(sr, CK_NOFORK);
+    srunner_set_fork_status(sr, CK_NOFORK);
     srunner_run_all(sr, CK_NORMAL);
 
     failed_tests += srunner_ntests_failed(sr);

@@ -13,9 +13,12 @@
 #include <check.h>
 #include <time.h>
 
-#include "../s21_decimal.h"
 #include "../gmp.h"
+#include "../s21_decimal.h"
 
+int s21_get_random_decimal_and_npz_copy(s21_decimal *in, mpz_t *in_npz_copy);
+void s21_apply_exponent_to_npz(mpz_t *src, int exp);
+unsigned int reverse_bits_u32(unsigned int n);
 int reverse_bits_int(int in);
 void print_bits_set(s21_decimal d, int set_n);
 void print_bits_r_set(s21_decimal d, int set_n);

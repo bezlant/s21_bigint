@@ -3,7 +3,7 @@
 
 #include "gmp.h"
 
-int main() {
+int main(void) {
     char inputStr[1024];
     /*
        mpz_t is the type defined for GMP integers.

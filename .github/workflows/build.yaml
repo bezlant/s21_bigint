@@ -2,9 +2,9 @@ name: Build Pipeline
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ develop, feat/ci_cd ]
   pull_request:
-    branches: [ develop ]
+    branches: [ develop, feat/ci_cd ]
 
 jobs:
   build_ubuntu:
@@ -15,11 +15,10 @@ jobs:
 
     - name: Install dependencies
       run: sudo apt install check
-     # or check-dev (?)
 
     - name: Build with Make & launch tests
+      working-directory: ${{github.workspace}}/docker
       run: |
-        working-directory: ${{github.workspace}}/docker
         chmod +x test_s21_decimal.sh
         ./test_s21_decimal.sh
         
@@ -30,8 +29,8 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Build with Make & launch tests
+      working-directory: ${{github.workspace}}/docker
       run: |
-        working-directory: ${{github.workspace}}/docker
         chmod +x test_s21_decimal.sh
         ./test_s21_decimal.sh
     
@@ -42,7 +41,7 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Build Docker container & run it
+      working-directory: ${{github.workspace}}/docker
       run: |
-        working-directory: ${{github.workspace}}/docker
         chmod +x run_daemon.sh
         ./run_daemon.sh

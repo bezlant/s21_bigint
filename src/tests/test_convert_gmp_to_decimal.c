@@ -7,15 +7,18 @@ START_TEST(convert_test) {
     s21_get_random_decimal_and_npz_copy(&expected, &mpz_val);
 
     s21_decimal res = convert_gmp_to_decimal(mpz_val);
-    /* printf("TEST = %d\n", test++); */
-    /* printf("-------mpz_val--------"); */
-    /* mpz_out_str(stdout, 2, mpz_val); */
-    /* printf("\n"); */
-    /* printf("-------result---------"); */
-    /* print_bits(res); */
-    /* printf("-------expected-------"); */
-    /* print_bits(expected); */
+    /* TODO: set sign logic needs to be implemented */
 
+#ifdef DEBUG
+    printf("TEST = %d\n", test++);
+    printf("-------mpz_val--------");
+    mpz_out_str(stdout, 2, mpz_val);
+    printf("\n");
+    printf("-------result---------");
+    print_bits(res);
+    printf("-------expected-------");
+    print_bits(expected);
+#endif
     ck_assert_int_eq(s21_is_equal(res, expected), TRUE);
     mpz_clear(mpz_val);
 }

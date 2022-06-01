@@ -25,18 +25,19 @@ int get_rand(int min, int max) {
 }
 
 int s21_get_random_decimal_and_npz_copy(s21_decimal *in, mpz_t *in_npz_copy) {
-    /* TODO: Decimal has sign, but mpz doesn't...can't convert mpz when negative
-     */
-    /* if (rand() % 2) { */
-    if (0) {
+    if (rand() % 2) {
         set_sign_neg(in);
     } else {
         set_sign_pos(in);
     }
 
-    char npz_bin_str[1024] = {'\0'};
+    /* printf("\n\n\n"); */
+    /* printf("-----------------------\n"); */
+    /* print_bits_r(*in); */
+    /* printf("-----------------------\n"); */
+    char npz_bin_str[1024] = {0};
 
-    for (int j = 0, m = 0; j < 3; j++) {
+    for (int j = 0, m = 0; j < 1; j++) {
         for (int i = 0; i < 32; i++) {
             unsigned int bit = (rand() % 2);
 
@@ -49,34 +50,47 @@ int s21_get_random_decimal_and_npz_copy(s21_decimal *in, mpz_t *in_npz_copy) {
             m++;
         }
     }
+    /* printf("---------SET_BITS--------------\n"); */
+    /* print_bits_r(*in); */
+    /* printf("---------SET_BITS--------------\n"); */
 
     /* Normalizes our */
     for (int j = 0; j < 3; j++)
         in->bits[j] = reverse_bits_u32(in->bits[j]);
 
+    /* printf("---------NORMALIZE--------------\n"); */
+    /* print_bits_r(*in); */
+    /* printf("---------NORMALIZE--------------\n"); */
+
     /* TODO: Changes needed */
-    int exp = 0;  // get_rand(0, 0);
+    int exp = get_rand(0, 5);
     set_exponent(in, exp);
 
+    /* printf("---------SET_EXPONENT--------------\n"); */
+    /* print_bits_r(*in); */
+    /* printf("---------SET_EXPONENT--------------\n"); */
+    /* printf("\n\n\n"); */
     mpz_init(*in_npz_copy);
     mpz_set_si(*in_npz_copy, 0);
     int flag = mpz_set_str(*in_npz_copy, npz_bin_str, 2);
 
 /* #define DEBUG */
 #if defined(DEBUG)
+
+    printf("%s", HRED);
     printf("EXPONENT WAS: %d\n", exp);
     printf("LINE: %d IN %s\n", __LINE__, __FILE__);
     mpz_out_str(stdout, 10, *in_npz_copy);
     printf("\n");
 #endif
 
-    /* FIXME: this breaks everythig */
     s21_apply_exponent_to_npz(in_npz_copy, exp);
 
 #if defined(DEBUG)
     printf("LINE: %d IN %s\n", __LINE__, __FILE__);
     mpz_out_str(stdout, 10, *in_npz_copy);
     printf("\n");
+    printf("%s", RESET);
 #endif
 
     return flag;
@@ -108,7 +122,7 @@ void s21_apply_exponent_to_npz(mpz_t *src, int exp) {
 }
 
 void print_bits(s21_decimal d) {
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
         int x = 3;
         for (int j = 0; j < 32; j++) {
             if (IS_SET(d.bits[i], j))
@@ -139,7 +153,7 @@ s21_decimal get_random_int_decimal(void) {
 }
 
 void print_bits_r(s21_decimal d) {
-    for (int i = 2; i >= 0; --i) {
+    for (int i = 3; i >= 0; --i) {
         int x = 28;
         for (int j = 31; j >= 0; --j) {
             if (IS_SET(d.bits[i], j))

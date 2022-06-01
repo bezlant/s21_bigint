@@ -46,7 +46,7 @@ void run_tests(void) {
                            //    suite_s21_is_equal(),
                            //    suite_s21_is_not_equal(),
                            //    suite_s21_from_int_to_decimal(),
-                           //    suite_s21_from_float_to_decimal(),
+                           /* suite_s21_from_float_to_decimal(), */
                            /* suite_s21_from_decimal_to_int(), */
                            //    suite_s21_from_decimal_to_float(),
                            //    suite_s21_floor(),

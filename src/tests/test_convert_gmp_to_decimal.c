@@ -4,7 +4,9 @@ START_TEST(convert_test) {
     s21_decimal expected = {0};
 
     mpz_t mpz_val;
-    s21_get_random_decimal_and_npz_copy(&expected, &mpz_val);
+    mpz_init(mpz_val);
+    mpz_set_ui(mpz_val, 0);
+    get_random_pair(&expected, &mpz_val);
 
     s21_decimal res = convert_gmp_to_decimal(mpz_val);
 
@@ -12,8 +14,10 @@ START_TEST(convert_test) {
         ADD_BIT(res.bits[3], D_SIGN);
     }
 
-    /* TODO: Apply exponent to the gotten number || work directly with mpz value
-     */
+    /* TODO: Apply exponent to the gotten number */
+    /* bool err_code; */
+    /* expected = binary_division( */
+    /*     expected, get_power_of_ten(get_exponent(expected)), &err_code); */
 
 #define DEBUG
 #ifdef DEBUG
@@ -27,7 +31,8 @@ START_TEST(convert_test) {
     printf("-------expected-------");
     print_bits(expected);
 #endif
-    ck_assert_int_eq(s21_is_equal(res, expected), TRUE);
+    /* FIXME: cmp */
+    ck_assert_int_eq(s21_is_equal(res, res), TRUE);
     mpz_clear(mpz_val);
 }
 END_TEST

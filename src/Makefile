@@ -8,10 +8,11 @@ GCOV_TARGET=./coverage
 GCOV_INFO=coverage.info
 
 MODULES:=$(shell find . -maxdepth 1 -type d | grep -v -E "docker|objs|tests")
+TEST_MODULES:=$(shell find tests -maxdepth 1 -type d | grep -v -E "objs")
 
 SRC_DIR?=$(MODULES)
-
-TEST_SRC_DIR?=./tests
+TEST_SRC_DIR?=$(TEST_MODULES)
+# TEST_SRC_DIR?=./tests
 
 OBJ_DIR?=./objs
 TEST_OBJ_DIR?=./tests/objs
@@ -25,27 +26,37 @@ TEST_SRC:=$(shell find $(TEST_SRC_DIR) -maxdepth 1 -name "*.c")
 ALL_OBJS:=$(shell find . -name "*.o")
 
 OBJS:=$(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
+TEST_OBJS:=$(addprefix $(OBJ_DIR)/, $(notdir $(TEST_SRC:.c=.o)))
+
 GCOV_OBJS:=$(addprefix $(TEST_OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
-TEST_OBJS:=$(addprefix $(TEST_OBJ_DIR)/, $(notdir $(TEST_SRC:.c=.o)))
+
 
 GCDA=$(shell find $(TEST_OBJ_DIR) -maxdepth 1 -name "*.gcda")
 GCNO=$(shell find $(TEST_OBJ_DIR) -maxdepth 1 -name "*.gcno")
 
 VPATH:=$(MODULES)
 
+vpath %.c $(MODULES)
+vpath %.c $(TEST_MODULES)
+
 AR:=ar rc
 RAN:=ranlib
 RM:=rm -f
 MK:=mkdir -p
 
-ASAN:=-fsanitize=address
+ASAN:=#-fsanitize=address
 STDFLAGS=-c -Wall -Wextra -std=c11 #-Werror
 CFLAGS?= $(STDFLAGS) $(ASAN)
 TST_CFLAGS:= -g $(STDFLAGS) #$(shell pkg-config --cflags check)
 GCOV_FLAGS?=-fprofile-arcs -ftest-coverage
 TST_LIBS:=$(shell pkg-config --libs --cflags check) $(shell pkg-config --libs --cflags gmp)
 
-all: $(TARGET) test #gcov_report 
+all: Makefile $(TARGET) test #gcov_report 
+
+debug:
+	echo $(TEST_OBJS)
+	echo $(TEST_MODULES)
+	echo $(VPATH)
 
 gcov_obj: $(GCOV_OBJ)
 
@@ -60,7 +71,7 @@ $(TARGET): $(OBJS) Makefile
 	$(AR) $(TARGET) $(OBJS)
 	$(RAN) $(TARGET)
 
-$(TEST_TARGET): $(GCOV_OBJS) $(INC) 
+$(TEST_TARGET): $(GCOV_OBJS) $(INC)
 	$(AR) $(TEST_TARGET) $(GCOV_OBJS)
 	$(RAN) $(TEST_TARGET)
 
@@ -71,11 +82,11 @@ test: $(TARGET) $(TEST_OBJS) $(TEST_INC) Makefile
 test_gcov: $(TEST_TARGET) $(TEST_OBJS) Makefile
 	$(CC) $(TEST_OBJS) $(GCOV_FLAGS) -o $(TEST_GCOV_EXE) $(TST_LIBS) -L. $(TEST_TARGET)
 
-$(TEST_OBJ_DIR)%.o: $(TEST_SRC_DIR)%.c $(TEST_INC) 
-	@$(MK) $(TEST_OBJ_DIR)
-	$(CC) $(TST_CFLAGS) -o $@ -c $< $(TST_LIBS)
+$(TEST_OBJS): $(OBJ_DIR)/%.o:%.c $(INC)
+	echo "I AM BUILDING $@ from $<"
+	$(CC) $(CFLAGS) -o $@ -c $<
 
-$(OBJS): $(OBJ_DIR)/%.o:%.c $(INC) 
+$(OBJ_DIR)/%.o:%.c $(INC) 
 	@$(MK) $(OBJ_DIR)
 	$(CC) $(CFLAGS) -o $@ -c $<
 

@@ -2,15 +2,16 @@
 CC 				:=	gcc
 
 # Compilation flags configuration
+ALL_TARGETS 	?= $(TARGET) test # gcov_report 
 ASAN 			:= 	#-fsanitize=address
 UBSAN			:=	#-fsanitize=undefined
 STDFLAGS 		:=	-g -c -Wall -Wextra -std=c11 #-Werror
 
 
 # Linking flags configuration
+LIBS 			?=	$(CHECK_LIB) $(GMP_LIB)
 CHECK_LIB 		:= 	$(shell pkg-config --libs --cflags check)
-GMP_LIB 		:= $(shell pkg-config --libs --cflags gmp)
-LIBS 			:=	$(CHECK_LIB) $(GMP_LIB)
+GMP_LIB 		:= 	$(shell pkg-config --libs --cflags gmp)
 
 # Names config
 TARGET 			?=	s21_decimal.a
@@ -66,7 +67,7 @@ MK 	:=	mkdir -p
 CFLAGS 		?= 	$(STDFLAGS) $(ASAN) $(UBSAN)
 TST_CFLAGS 	:= 	$(STDFLAGS) #$(shell pkg-config --cflags check)
 
-all 			: 	Makefile $(TARGET) test gcov_report 
+all 			: 	$(ALL_TARGETS)
 
 debug: 
 	echo $(GCOV_OBJ_DIR)

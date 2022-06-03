@@ -43,7 +43,6 @@ STDFLAGS=-c -Wall -Wextra -std=c11 #-Werror
 CFLAGS?= $(STDFLAGS) $(ASAN)
 TST_CFLAGS:= -g $(STDFLAGS) #$(shell pkg-config --cflags check)
 GCOV_FLAGS?=-fprofile-arcs -ftest-coverage
-
 TST_LIBS:=$(shell pkg-config --libs --cflags check) $(shell pkg-config --libs --cflags gmp)
 
 all: $(TARGET) test #gcov_report 

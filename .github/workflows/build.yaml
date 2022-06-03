@@ -20,8 +20,8 @@ jobs:
     - name: Build with Make & launch tests
       working-directory: ${{github.workspace}}/docker
       run: |
-        chmod +x test_s21_decimal.sh
-        ./test_s21_decimal.sh
+        chmod +x test_s21_decimal_light.sh
+        ./test_s21_decimal_light.sh
     
   build_docker:
     name: Build on Docker Container (Apline Linux)

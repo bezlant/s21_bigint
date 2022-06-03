@@ -22,6 +22,6 @@ COPY . /s21_decimal
 
 WORKDIR "/s21_decimal/docker"
 
-CMD ["./test_s21_decimal.sh"]
+CMD ["./test_s21_decimal_light.sh"]
 
 

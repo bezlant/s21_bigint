@@ -22,9 +22,11 @@ SRC:=$(shell find $(SRC_DIR) -maxdepth 1 -name "s21_*.c")
 TEST_INC:=$(shell find $(TEST_SRC_DIR) -maxdepth 1 -name "*.h")
 TEST_SRC:=$(shell find $(TEST_SRC_DIR) -maxdepth 1 -name "*.c")
 
+ALL_OBJS:=$(shell find . -name "*.o")
+
 OBJS:=$(addprefix $(OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
 GCOV_OBJS:=$(addprefix $(TEST_OBJ_DIR)/, $(notdir $(SRC:.c=.o)))
-TEST_OBJS:=$(addprefix $(TEST_OBJ_DIR)/, $(notdir $(TEST_SRC:.c=.o))) #$(TEST_OBJ_DIR)/main.o
+TEST_OBJS:=$(addprefix $(TEST_OBJ_DIR)/, $(notdir $(TEST_SRC:.c=.o)))
 
 GCDA=$(shell find $(TEST_OBJ_DIR) -maxdepth 1 -name "*.gcda")
 GCNO=$(shell find $(TEST_OBJ_DIR) -maxdepth 1 -name "*.gcno")
@@ -63,22 +65,16 @@ $(TEST_TARGET): $(GCOV_OBJS) $(INC)
 	$(AR) $(TEST_TARGET) $(GCOV_OBJS)
 	$(RAN) $(TEST_TARGET)
 
-test: $(TARGET) $(TEST_OBJ_DIR)/main.o $(TEST_OBJS) $(TEST_INC) Makefile
-	$(CC) $(TEST_OBJS) $(TEST_OBJ_DIR)/main.o $(ASAN) $(GCOV_FLAGS) -o $(TEST_EXE) $(TST_LIBS) -L. $(TARGET)
+test: $(TARGET) $(TEST_OBJS) $(TEST_INC) Makefile
+	$(CC) $(TEST_OBJS) $(ASAN) $(GCOV_FLAGS) -o $(TEST_EXE) $(TST_LIBS) -L. $(TARGET)
 	./test
 
-test_gcov: $(TEST_TARGET) $(TEST_OBJ_DIR)/main.o $(TEST_OBJS) Makefile
-	$(CC) $(TEST_OBJS) $(TEST_OBJ_DIR)/main.o $(GCOV_FLAGS) -o $(TEST_GCOV_EXE) $(TST_LIBS) -L. $(TEST_TARGET)
-
-$(TEST_OBJ_DIR)/main.o: main.c 
-	@$(MK) $(TEST_OBJ_DIR)
-	echo $(TST_LIBS)
-	$(CC) $(CFLAGS) -o $(TEST_OBJ_DIR)/main.o main.c $(TST_LIBS)
+test_gcov: $(TEST_TARGET) $(TEST_OBJS) Makefile
+	$(CC) $(TEST_OBJS) $(GCOV_FLAGS) -o $(TEST_GCOV_EXE) $(TST_LIBS) -L. $(TEST_TARGET)
 
 $(TEST_OBJ_DIR)%.o: $(TEST_SRC_DIR)%.c $(TEST_INC) 
 	@$(MK) $(TEST_OBJ_DIR)
 	$(CC) $(TST_CFLAGS) -o $@ -c $< $(TST_LIBS)
-
 
 $(OBJS): $(OBJ_DIR)/%.o:%.c $(INC) 
 	@$(MK) $(OBJ_DIR)
@@ -98,16 +94,13 @@ $(GCOV_INFO): test_gcov
 	./$(TEST_GCOV_EXE)
 	geninfo $(TEST_OBJ_DIR) -b . -o ./$(GCOV_INFO)
 
-
 open:
 	open coverage/src/index.html
 
 clean:
-	$(RM) $(OBJS)
+	$(RM) $(ALL_OBJS)
 	$(RM) $(GCDA)
 	$(RM) $(GCNO)
-	$(RM) $(TEST_OBJS)
-	$(RM) $(GCOV_OBJS)
 
 fclean: clean
 	$(RM) $(TARGET)

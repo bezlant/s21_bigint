@@ -2,7 +2,7 @@
 CC 				:=	gcc
 
 # Compilation flags configuration
-ALL_TARGETS 	?= $(TARGET) test # gcov_report 
+ALL_TARGETS 	?= $(TARGET) test gcov_report 
 ASAN 			:= 	#-fsanitize=address
 UBSAN			:=	#-fsanitize=undefined
 STDFLAGS 		:=	-g -c -Wall -Wextra -std=c11 #-Werror
@@ -44,8 +44,7 @@ TEST_OBJS 		:=	$(notdir $(TEST_SRC:.c=.o))
 
 # GCOV-specific objects configuration
 GCOV_OBJS		:=	$(addprefix $(GCOV_OBJ_DIR)/gcov_, $(notdir $(SRC:.c=.o)))
-GCOV_TEST_OBJS 	:=	$(addprefix $(GCOV_OBJ_DIR)/gcov_, $(notdir $(TEST_SRC:.c=.o)))
-
+GCOV_TEST_OBJS 	:=	$(addprefix $(OBJ_DIR)/, $(notdir $(TEST_SRC:.c=.o)))
 
 # GCOV configuration
 GCDA 			:= 	$(shell find . -name "*.gcda")

@@ -11,6 +11,7 @@
 #define BHRED "\e[1;91m"
 
 #include <check.h>
+#include <float.h>
 #include <time.h>
 
 #include "../gmp.h"

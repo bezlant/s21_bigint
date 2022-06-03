@@ -1,4 +1,4 @@
-#include "s21_decimal_test.h"
+#include "../s21_decimal_test.h"
 
 START_TEST(mod_test) {
     mpz_t mpz_val1;

@@ -12,11 +12,11 @@
 
 #include <check.h>
 #include <float.h>
-#include <gmp.h>
 #include <stdio.h>
 #include <time.h>
 
 #include "../s21_decimal.h"
+#include "gmp.h"
 
 // decimal manipulation
 s21_decimal

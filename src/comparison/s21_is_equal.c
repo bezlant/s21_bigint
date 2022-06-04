@@ -9,3 +9,4 @@ int s21_is_equal(s21_decimal a, s21_decimal b) {
     bool info = a.bits[3] == b.bits[3];
     return info && bits_eq(a.bits, b.bits);
 }
+

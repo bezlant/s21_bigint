@@ -24,6 +24,9 @@
 #define UGRN "\e[4;32m"
 #define ENDCOLOR "\e[0m"
 
+// (!) HACK
+void tmp_normalize_exponent(s21_decimal *dec);
+
 // decimal manipulation
 s21_decimal get_random_int_decimal(void);
 

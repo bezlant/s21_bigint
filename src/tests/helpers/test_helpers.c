@@ -2,6 +2,7 @@
 
 int get_random_pair(s21_decimal *in, mpz_t *in_mpz_copy, int size) {
     /* NOTE: Negatives disabled for now */
+
     if (rand() % 2)
         set_sign_neg(in);
     else
@@ -45,6 +46,9 @@ int get_random_pair(s21_decimal *in, mpz_t *in_mpz_copy, int size) {
     printf("\n");
     printf("%s", RESET);
 #endif
+
+    if (get_sign(*in))
+        mpz_neg(*in_mpz_copy, *in_mpz_copy);
 
     return res;
 }
@@ -91,7 +95,6 @@ s21_decimal get_random_int_decimal(void) {
     for (int j = 0; j < 1; j++) {
         for (int i = 31; i >0; i--) {
             SET_BIT(res.bits[0], (rand() % 2), i);
-            printf("[%d]: %d\n", i, IS_SET(res.bits[0], i));
         }
     }
 

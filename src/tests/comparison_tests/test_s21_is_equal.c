@@ -7,35 +7,22 @@ START_TEST(gmp_random) {
     mpz_t mpz_val, mpz_copy;
     mpz_init(mpz_val);
     mpz_init(mpz_copy);
-    mpz_set_si(mpz_val, 0);
-    mpz_set_si(mpz_copy, 0);
+    mpz_set_ui(mpz_val, 0);
+    mpz_set_ui(mpz_copy, 0);
 
     get_random_pair(&a1, &mpz_val, 3);
 
     convert_decimal_to_gmp(&mpz_copy, &a1);
     s21_decimal res = convert_gmp_to_decimal(mpz_val);
 
-#define DEBUG
-#ifdef DEBUG
-    static int test = 0;
-    unsigned int num = 0;
+    /* (!) Hack. Change this to our own function */
+    tmp_normalize_exponent(&a1);
+
+    int got = !(s21_is_equal(a1, res));
+    int expected = mpz_cmp(mpz_val, mpz_copy);
 
 
-    printf("\n");
-
-    mpz_out_str(stdout, 10, mpz_val);
-    printf("\n");
-
-    mpz_out_str(stdout, 10, mpz_copy);
-
-    printf("\n");
-
-    test++;
-#endif
-
-    printf("KEY KEY KEY: %d \n\n\n\n", mpz_cmp(mpz_val, mpz_copy));
-
-    // ck_assert_int_eq(s21_is_equal(a1, res), mpz_cmp(mpz_val, mpz_copy));
+    ck_assert_int_eq(got, expected);
 
     mpz_clear(mpz_copy);
     mpz_clear(mpz_val);

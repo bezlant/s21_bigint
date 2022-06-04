@@ -18,19 +18,25 @@
 #include "../s21_decimal.h"
 #include "gmp.h"
 
+#define GRN "\e[0;92m"
+
+#define PRETTY_PRINT(name) (UGRN name ENDCOLOR)
+#define UGRN "\e[4;32m"
+#define ENDCOLOR "\e[0m"
+
 // decimal manipulation
-s21_decimal
-get_random_int_decimal(void);
+s21_decimal get_random_int_decimal(void);
 
 // gmp manipulation
 s21_decimal convert_gmp_to_decimal(mpz_t input);
+void convert_decimal_to_gmp(mpz_t *gmp, s21_decimal *dec);
 int get_random_pair(s21_decimal *in, mpz_t *in_mpz_copy, int size);
 void apply_exponent_to_mpz(mpz_t *src, int exp);
 
 // helpers
 uint32_t reverse_bits(uint32_t n);
 int get_rand(int min, int max);
-
+int reverse_bits_int(int n);
 // debug
 void print_mpz_binary(mpz_t mpz_val);
 void print_mpz_decimal(mpz_t mpz_val);
@@ -41,9 +47,11 @@ void print_bits_r(s21_decimal d);
 
 /* Our functions test */
 Suite *suite_convert_gmp_to_decimal(void);
+Suite *suite_convert_decimal_to_gmp(void);
 
 /* Decimal function tests */
-Suite *suite_s21_add(void);
+Suite *
+suite_s21_add(void);
 Suite *suite_s21_sub(void);
 Suite *suite_s21_mul(void);
 Suite *suite_s21_div(void);

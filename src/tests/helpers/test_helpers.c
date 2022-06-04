@@ -1,12 +1,5 @@
 #include "../s21_decimal_test.h"
 
-s21_decimal convert_gmp_to_decimal(mpz_t input) {
-    s21_decimal res = {0};
-    /* https://gmplib.org/manual/Integer-Import-and-Export */
-    mpz_export(res.bits, 0, 1, sizeof(res.bits[0]), -1, 0, input);
-    return res;
-}
-
 int get_random_pair(s21_decimal *in, mpz_t *in_mpz_copy, int size) {
     /* NOTE: Negatives disabled for now */
     if (0)
@@ -30,7 +23,7 @@ int get_random_pair(s21_decimal *in, mpz_t *in_mpz_copy, int size) {
         in->bits[j] = reverse_bits(in->bits[j]);
 
     /* TODO: Changes needed */
-    int exp = get_rand(0, 0);
+    int exp = get_rand(0, 28);
     set_exponent(in, exp);
 
     bool res = mpz_set_str(*in_mpz_copy, mpz_bin_str, 2);
@@ -78,12 +71,27 @@ uint32_t reverse_bits(uint32_t n) {
     return m;
 }
 
+int reverse_bits_int(int n) {
+    int m = 0;
+    for (int i = 0; i < 32; i++, n >>= 1) {
+        m <<= 1;
+        m |= n & 1;
+    }
+    return m;
+}
+
 s21_decimal get_random_int_decimal(void) {
     s21_decimal res = {0};
 
-    for (int j = 0; j < 3; j++) {
-        for (int i = 0; i < 31; i++) {
-            SET_BIT(res.bits[j], (rand() % 2), i);
+    if (rand() % 2)
+        set_sign_neg(&res);
+    else
+        set_sign_pos(&res);
+
+    for (int j = 0; j < 1; j++) {
+        for (int i = 31; i >0; i--) {
+            SET_BIT(res.bits[0], (rand() % 2), i);
+            printf("[%d]: %d\n", i, IS_SET(res.bits[0], i));
         }
     }
 
@@ -168,6 +176,5 @@ void print_bits_set(s21_decimal d, int set_n) {
 }
 
 int get_rand(int min, int max) {
-    int val = (int)rand() % 2;
-    return min + val * (max - min);
+    return (rand() % (max - min + 1)) + min;
 }

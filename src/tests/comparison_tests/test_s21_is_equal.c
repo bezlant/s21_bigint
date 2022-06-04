@@ -7,8 +7,8 @@ START_TEST(gmp_random) {
     mpz_t mpz_val, mpz_copy;
     mpz_init(mpz_val);
     mpz_init(mpz_copy);
-    mpz_set_ui(mpz_val, 0);
-    mpz_set_ui(mpz_copy, 0);
+    mpz_set_si(mpz_val, 0);
+    mpz_set_si(mpz_copy, 0);
 
     get_random_pair(&a1, &mpz_val, 3);
 

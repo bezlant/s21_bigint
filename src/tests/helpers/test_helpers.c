@@ -2,7 +2,7 @@
 
 int get_random_pair(s21_decimal *in, mpz_t *in_mpz_copy, int size) {
     /* NOTE: Negatives disabled for now */
-    if (0)
+    if (rand() % 2)
         set_sign_neg(in);
     else
         set_sign_pos(in);

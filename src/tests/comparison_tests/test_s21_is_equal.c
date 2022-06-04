@@ -21,7 +21,6 @@ START_TEST(gmp_random) {
     int got = !(s21_is_equal(a1, res));
     int expected = mpz_cmp(mpz_val, mpz_copy);
 
-
     ck_assert_int_eq(got, expected);
 
     mpz_clear(mpz_copy);
@@ -32,10 +31,18 @@ END_TEST
 START_TEST(equality_all_zeros) {
     s21_decimal n1 = {0};
     s21_decimal n2 = {0};
+    set_sign_neg(&n1);
+
     s21_decimal n3 = {0};
     s21_decimal n4 = {0};
+    set_exponent(&n3, 5);
+
+
     s21_decimal n5 = {0};
+    set_sign_pos(&n5);
+    set_exponent(&n5, 10);
     s21_decimal n6 = {0};
+    set_sign_neg(&n6);
 
     // (1) zeros + different sign bit (+0 and -0)
     // (2) zeros + diff exponent (0e-25 && 0e-1)
@@ -55,7 +62,9 @@ Suite *suite_s21_is_equal(void) {
     Suite *s = suite_create(PRETTY_PRINT("s21_is_equal"));
     TCase *tc = tcase_create("s21_is_equal_tc");
 
+    /* Tests: (1) sign, (2) exponent (0 - 28), (3) numbers */
     tcase_add_loop_test(tc, gmp_random, 0, 100);
+    /* All zeroes are the only possible special case here */
     tcase_add_test(tc, equality_all_zeros);
 
     suite_add_tcase(s, tc);

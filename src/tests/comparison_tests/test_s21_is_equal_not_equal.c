@@ -1,32 +1,32 @@
 #include "../s21_decimal_test.h"
 
-// START_TEST(gmp_random) {
-//     s21_decimal a1 = {0};
-//     init_zero(&a1);
+START_TEST(gmp_random) {
+    s21_decimal a1 = {0};
+    init_zero(&a1);
 
-//     mpz_t mpz_val, mpz_copy;
-//     mpz_init(mpz_val);
-//     mpz_init(mpz_copy);
-//     mpz_set_ui(mpz_val, 0);
-//     mpz_set_ui(mpz_copy, 0);
+    mpz_t mpz_val, mpz_copy;
+    mpz_init(mpz_val);
+    mpz_init(mpz_copy);
+    mpz_set_ui(mpz_val, 0);
+    mpz_set_ui(mpz_copy, 0);
 
-//     get_random_pair(&a1, &mpz_val, 3);
+    get_random_pair(&a1, &mpz_val, 3);
 
-//     convert_decimal_to_gmp(&mpz_copy, &a1);
-//     s21_decimal res = convert_gmp_to_decimal(mpz_val);
+    convert_decimal_to_gmp(&mpz_copy, &a1);
+    s21_decimal res = convert_gmp_to_decimal(mpz_val);
 
-//     /* (!) Hack. Change this to our own function */
-//     tmp_normalize_exponent(&a1);
+    /* (!) Hack. Change this to our own function */
+    tmp_normalize_exponent(&a1);
 
-//     int got = !(s21_is_equal(a1, res));
-//     int expected = mpz_cmp(mpz_val, mpz_copy);
+    int got = s21_is_equal(a1, res);
+    int expected = mpz_cmp(mpz_val, mpz_copy);
 
-//     ck_assert_int_eq(got, expected);
+    ck_assert_int_eq(got, expected);
 
-//     mpz_clear(mpz_copy);
-//     mpz_clear(mpz_val);
-// }
-// END_TEST
+    mpz_clear(mpz_copy);
+    mpz_clear(mpz_val);
+}
+END_TEST
 
 // START_TEST(gmp_random_inequality) {
 //     int inequality = rand() % 2;
@@ -136,7 +136,7 @@ Suite *suite_s21_is_or_not_equal(void) {
     /* (!) GMP tests are commented out because of existing incompatibilities between */
     /* decimal type & GMP. We need to fix GMP <-> decimal converters */
 
-    // tcase_add_loop_test(tc, gmp_random, 0, 100);
+    tcase_add_loop_test(tc, gmp_random, 0, 100);
     /* All zeroes are the only possible special case here */
     // /* Randomly tests inequality in ~50% of cases */
     // tcase_add_loop_test(tc, gmp_random_inequality, 0, 100);

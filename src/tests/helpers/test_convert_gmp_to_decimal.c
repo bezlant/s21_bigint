@@ -13,26 +13,8 @@ START_TEST(convert_test) {
     if (IS_SET(expected.bits[3], D_SIGN)) {
         ADD_BIT(res.bits[3], D_SIGN);
     }
-
-    /* TODO: Apply exponent to the gotten number */
-    /* int err_code; */
-    /* printf("\nNUMBERS:\n"); */
-    /* printf("EXP = %d ", get_exponent(expected)); */
-    /* print_bits_r(expected); */
-    /* s21_decimal pot = get_power_of_ten(get_exponent(expected)); */
-    /* printf("POT : "); */
-    /* print_bits_r(pot); */
-    /* expected = binary_division(expected, pot, &err_code); */
-
-    /* printf("EXP = %d ", */
-    /* get_exponent(get_power_of_ten(get_exponent(expected)))); */
-    /* print_bits_r(get_power_of_ten(get_exponent(expected))); */
-
-    /* printf("EXP = %d ", get_exponent(expected)); */
-    /* print_bits_r(expected); */
-    /* printf("\n"); */
-
-/* #define DEBUG */
+    
+#define DEBUG
 #ifdef DEBUG
     static int test = 0;
     printf("TEST = %d\n", test++);
@@ -51,10 +33,10 @@ START_TEST(convert_test) {
 END_TEST
 
 Suite *suite_convert_gmp_to_decimal(void) {
-    Suite *s = suite_create("suite_convert_dmp_to_decimal");
-    TCase *tc = tcase_create("s21_convert_dmp_to_decimal");
+    Suite *s = suite_create(PRETTY_PRINT("s21_convert_gmp_to_decimal"));
+    TCase *tc = tcase_create("s21_convert_gmp_to_decimal");
 
-    tcase_add_loop_test(tc, convert_test, 0, 5);
+    tcase_add_loop_test(tc, convert_test, 0, 30);
 
     suite_add_tcase(s, tc);
     return s;

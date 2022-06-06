@@ -44,3 +44,16 @@ void tmp_normalize_exponent(s21_decimal *dec) {
 
     mpz_clear(tmp);
 }
+
+void apply_exponent_to_mpz(mpz_t *src, int exp) {
+    mpz_t mpz_ten_const;
+    mpz_init(mpz_ten_const);
+    mpz_set_ui(mpz_ten_const, 10);
+
+    while (exp) {
+        mpz_fdiv_q(*src, *src, mpz_ten_const);
+        exp--;
+    }
+
+    mpz_clear(mpz_ten_const);
+}

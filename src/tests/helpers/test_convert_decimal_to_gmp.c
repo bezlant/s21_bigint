@@ -15,7 +15,6 @@ START_TEST(convert_test) {
 #define DEBUG
 #ifdef DEBUG
     static int test = 0;
-    unsigned int num = 0;
 
     printf("MY DECIMAL: \n");
     print_bits(expected);
@@ -34,7 +33,7 @@ START_TEST(convert_test) {
 END_TEST
 
 Suite *suite_convert_decimal_to_gmp(void) {
-    Suite *s = suite_create(PRETTY_PRINT("convert_decimal_to_gmp"));
+    Suite *s = suite_create(PRETTY_PRINT("s21_convert_decimal_to_gmp"));
     TCase *tc = tcase_create("s21_convert_decimal_to_gmp");
 
     tcase_add_loop_test(tc, convert_test, 0, 5);

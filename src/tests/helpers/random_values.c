@@ -1,5 +1,7 @@
 #include "../s21_decimal_test.h"
 
+int get_rand(int min, int max) { return (rand() % (max - min + 1)) + min; }
+
 int get_random_pair(s21_decimal *in, mpz_t *in_mpz_copy, int size) {
     /* NOTE: Negatives disabled for now */
 
@@ -51,19 +53,6 @@ int get_random_pair(s21_decimal *in, mpz_t *in_mpz_copy, int size) {
         mpz_neg(*in_mpz_copy, *in_mpz_copy);
 
     return res;
-}
-
-void apply_exponent_to_mpz(mpz_t *src, int exp) {
-    mpz_t mpz_ten_const;
-    mpz_init(mpz_ten_const);
-    mpz_set_ui(mpz_ten_const, 10);
-
-    while (exp) {
-        mpz_fdiv_q(*src, *src, mpz_ten_const);
-        exp--;
-    }
-
-    mpz_clear(mpz_ten_const);
 }
 
 /**
@@ -124,85 +113,3 @@ s21_decimal get_random_decimal_size(int size, int min_exp, int max_exp) {
 
     return res;
 }
-
-void print_mpz_binary(mpz_t mpz_val) {
-    mpz_out_str(stdout, 2, mpz_val);
-    puts("");
-}
-
-void print_mpz_decimal(mpz_t mpz_val) {
-    mpz_out_str(stdout, 10, mpz_val);
-    puts("");
-}
-
-void print_bits(s21_decimal d) {
-    for (int i = 0; i < 4; i++) {
-        if (i == 2)
-            printf(" ");
-        int x = 3;
-        for (int j = 0; j < 32; j++) {
-            if (IS_SET(d.bits[i], j))
-                printf("%s", HRED);
-            printf("%u", IS_SET(d.bits[i], j));
-            if (j == x && !(i == 2 && j == 31)) {
-                x += 4;
-                printf("");
-            }
-            printf("%s", RESET);
-        }
-    }
-    printf("\n");
-}
-
-void print_bits_r(s21_decimal d) {
-    for (int i = 3; i >= 0; --i) {
-        if (i == 2)
-            printf(" ");
-        int x = 28;
-        for (int j = 31; j >= 0; --j) {
-            if (IS_SET(d.bits[i], j))
-                printf("%s", HRED);
-            printf("%u", IS_SET(d.bits[i], j));
-            if (j == x && !(i == 0 && j == 0)) {
-                x -= 4;
-                printf("");
-            }
-            printf("%s", RESET);
-        }
-    }
-    printf("\n");
-}
-
-void print_bits_r_set(s21_decimal d, int set_n) {
-    int x = 28;
-    for (int j = 15; j >= 0; --j) {
-        if (IS_SET(d.bits[set_n], j))
-            printf("%s", HRED);
-        printf("%u", IS_SET(d.bits[set_n], j));
-        if (j == x && !(set_n == 0 && j == 0)) {
-            x -= 4;
-            printf("");
-        }
-        printf("%s", RESET);
-    }
-
-    printf("\n");
-}
-
-void print_bits_set(s21_decimal d, int set_n) {
-    int x = 28;
-    for (int j = 0; j < 16; ++j) {
-        if (IS_SET(d.bits[set_n], j))
-            printf("%s", HRED);
-        printf("%u", IS_SET(d.bits[set_n], j));
-        if (j == x && !(set_n == 0 && j == 0)) {
-            x -= 4;
-            printf("");
-        }
-        printf("%s", RESET);
-    }
-
-    printf("\n");
-}
-
-int get_rand(int min, int max) { return (rand() % (max - min + 1)) + min; }

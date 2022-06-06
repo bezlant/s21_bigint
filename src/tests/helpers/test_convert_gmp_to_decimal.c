@@ -2,33 +2,27 @@
 
 START_TEST(convert_test) {
     s21_decimal expected = {0};
-
     mpz_t mpz_val;
     mpz_init(mpz_val);
     mpz_set_ui(mpz_val, 0);
+
     get_random_pair(&expected, &mpz_val, 3);
 
-    s21_decimal res = convert_gmp_to_decimal(mpz_val);
-
-    if (IS_SET(expected.bits[3], D_SIGN)) {
-        ADD_BIT(res.bits[3], D_SIGN);
-    }
+    printf("#1:(pair)\n");
+    print_mpz_decimal(mpz_val);
     
-#define DEBUG
-#ifdef DEBUG
-    static int test = 0;
-    printf("TEST = %d\n", test++);
-    printf("-------mpz_val--------");
-    mpz_out_str(stdout, 2, mpz_val);
-    printf("\n");
-    printf("-------result---------");
-    print_bits(res);
-    printf("-------expected-------");
-    print_bits(expected);
-#endif
-    /* FIXME: cmp */
-    ck_assert_int_eq(s21_is_equal(res, res), TRUE);
+    tmp_normalize_exponent(&expected);
+
+    s21_decimal got = convert_gmp_to_decimal(mpz_val);
+    
+    printf("GOT: \n");
+    print_bits_r(got);
+    printf("EXPECTED: \n");
+    print_bits_r(expected);
+
     mpz_clear(mpz_val);
+
+    ck_assert_int_eq(s21_is_equal(got, expected), true);
 }
 END_TEST
 

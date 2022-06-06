@@ -1,17 +1,33 @@
 #include "../s21_decimal_test.h"
 
-int get_rand(int min, int max) { return (rand() % (max - min + 1)) + min; }
+static void set_random_pair_sign(s21_decimal *dec, mpz_t *in_mpz_copy);
+static void debug_print_pair(s21_decimal *dec, mpz_t *big, bool exp_applied);
+static void get_random_binary_string(s21_decimal *dec, char *mpz_bin_str, int size);
 
 int get_random_pair(s21_decimal *in, mpz_t *in_mpz_copy, int size) {
-    /* NOTE: Negatives disabled for now */
+    char mpz_bin_str[300] = {'\0'};
 
-    if (rand() % 2)
-        set_sign_neg(in);
-    else
-        set_sign_pos(in);
+    get_random_binary_string(in, mpz_bin_str, size);
 
-    char mpz_bin_str[96] = {0};
-    for (int j = 0, m = 0; j < size; j++)
+    int exp = get_rand(0, 28);
+    set_exponent(in, exp);
+
+    bool res = mpz_set_str(*in_mpz_copy, mpz_bin_str, 2);
+
+    /* This is heavily tested! According to output of binary calculator, we indeed */
+    /* get equal numbers (if we reverse our decimal representation) */
+
+    // debug_print_pair(in, in_mpz_copy, false);
+    apply_exponent_to_mpz(in_mpz_copy, exp);
+    // debug_print_pair(in, in_mpz_copy, true);
+
+    set_random_pair_sign(in, in_mpz_copy);
+
+    return res;
+}
+
+static void get_random_binary_string(s21_decimal *in, char *mpz_bin_str, int size) {
+    for (int j = 0, m = 0; j < size; j++) {
         for (int i = 0; i < 32; i++, m++) {
             if (rand() % 2) {
                 ADD_BIT(in->bits[j], i);
@@ -21,44 +37,41 @@ int get_random_pair(s21_decimal *in, mpz_t *in_mpz_copy, int size) {
                 mpz_bin_str[m] = '0';
             }
         }
+    }
 
-    for (int j = 0; j < 3; j++)
+    /* This reverse is needed to match the format of normal binary with subject */
+    for (int j = 0; j < size; j++)
         in->bits[j] = reverse_bits(in->bits[j]);
+}
 
-    /* TODO: Changes needed */
-    int exp = get_rand(0, 28);
-    set_exponent(in, exp);
+static void debug_print_pair(s21_decimal *dec, mpz_t *big, bool exp_applied) {
+    printf("=================\n");
 
-    bool res = mpz_set_str(*in_mpz_copy, mpz_bin_str, 2);
+    if (exp_applied)
+        printf("After exponent: \n");
+    else
+        printf("Before exponent: \n");
 
-/* #define DEBUG */
-#if defined(DEBUG)
-    printf("%s", HRED);
-    printf("EXPONENT WAS: %d\n", exp);
-    printf("LINE: %d IN %s\n", __LINE__, __FILE__);
-    mpz_out_str(stdout, 10, *in_mpz_copy);
-    printf("\n");
-#endif
+    printf("Exponent value: [%d]\n", get_exponent(*dec));
+    printf("Decimal: \n");
+    print_bits_no_exp(*dec);
+    print_mpz_binary(*big);
+    printf("MPZ decimal: \n");
+    print_mpz_decimal(*big);
+    printf("=================\n");
+}
 
-    apply_exponent_to_mpz(in_mpz_copy, exp);
-
-#if defined(DEBUG)
-    printf("LINE: %d IN %s\n", __LINE__, __FILE__);
-    mpz_out_str(stdout, 10, *in_mpz_copy);
-    printf("\n");
-    printf("%s", RESET);
-#endif
-
-    if (get_sign(*in))
+static void set_random_pair_sign(s21_decimal *dec, mpz_t *in_mpz_copy) {
+    if (get_rand(0, 1)) {
+        set_sign_neg(dec);
         mpz_neg(*in_mpz_copy, *in_mpz_copy);
-
-    return res;
+    } else {
+        set_sign_pos(dec);
+    }
 }
 
 /**
  * @brief Returns random decimal that is in range of [-MAX_UINT32; +MAX_UINT32]
- *
- *
  * @return s21_decimal
  */
 
@@ -113,3 +126,5 @@ s21_decimal get_random_decimal_size(int size, int min_exp, int max_exp) {
 
     return res;
 }
+
+int get_rand(int min, int max) { return (rand() % (max - min + 1)) + min; }

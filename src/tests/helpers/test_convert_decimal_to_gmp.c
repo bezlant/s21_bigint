@@ -12,21 +12,21 @@ START_TEST(convert_test) {
 
     convert_decimal_to_gmp(&mpz_val, &expected);
 
-#define DEBUG
-#ifdef DEBUG
-    static int test = 0;
+// #define DEBUG
+// #ifdef DEBUG
+//     static int test = 0;
 
-    printf("MY DECIMAL: \n");
-    print_bits(expected);
-    printf("BINARY MPZ: \n");
-    mpz_out_str(stdout, 2, mpz_val);
-    printf("\t DEC MPZ: ");
-    mpz_out_str(stdout, 10, mpz_val);
-    s21_decimal aboba = convert_gmp_to_decimal(mpz_val);
-    printf("\n");
-    print_bits(aboba);
-    test++;
-#endif
+//     printf("MY DECIMAL: \n");
+//     print_bits(expected);
+//     printf("BINARY MPZ: \n");
+//     mpz_out_str(stdout, 2, mpz_val);
+//     printf("\t DEC MPZ: ");
+//     mpz_out_str(stdout, 10, mpz_val);
+//     s21_decimal aboba = convert_gmp_to_decimal(mpz_val);
+//     printf("\n");
+//     print_bits(aboba);
+//     test++;
+// #endif
 
     mpz_clear(mpz_val);
 }

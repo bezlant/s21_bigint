@@ -38,7 +38,7 @@ void run_tests(void) {
         //    suite_s21_mul(),
         // suite_s21_div(),
         //    suite_s21_mod(),
-        // suite_s21_is_less(),
+        suite_s21_is_less(),
         // suite_s21_is_less_or_equal(),
         // suite_s21_is_greater(),
         // suite_s21_is_greater_or_equal(),

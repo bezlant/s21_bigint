@@ -7,19 +7,9 @@ START_TEST(convert_test) {
     mpz_set_ui(mpz_val, 0);
 
     get_random_pair(&expected, &mpz_val, 3);
-
-    printf("#1:(pair)\n");
-    print_mpz_decimal(mpz_val);
-    
     tmp_normalize_exponent(&expected);
 
     s21_decimal got = convert_gmp_to_decimal(mpz_val);
-    
-    printf("GOT: \n");
-    print_bits_r(got);
-    printf("EXPECTED: \n");
-    print_bits_r(expected);
-
     mpz_clear(mpz_val);
 
     ck_assert_int_eq(s21_is_equal(got, expected), true);

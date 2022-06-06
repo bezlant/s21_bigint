@@ -18,7 +18,8 @@ START_TEST(gmp_random) {
     /* (!) Hack. Change this to our own function */
     tmp_normalize_exponent(&a1);
 
-    int got = s21_is_equal(a1, res);
+    /* Negation is done to match mpz_cmp output (0 in case of equality) */
+    int got = !(s21_is_equal(a1, res));
     int expected = mpz_cmp(mpz_val, mpz_copy);
 
     ck_assert_int_eq(got, expected);
@@ -28,47 +29,47 @@ START_TEST(gmp_random) {
 }
 END_TEST
 
-// START_TEST(gmp_random_inequality) {
-//     int inequality = rand() % 2;
-//     s21_decimal a1 = {0};
-//     init_zero(&a1);
+START_TEST(gmp_random_inequality) {
+    int inequality = rand() % 2;
+    s21_decimal a1 = {0};
+    init_zero(&a1);
 
-//     mpz_t mpz_val, mpz_copy;
-//     mpz_init(mpz_val);
-//     mpz_init(mpz_copy);
-//     mpz_set_ui(mpz_val, 0);
-//     mpz_set_ui(mpz_copy, 0);
+    mpz_t mpz_val, mpz_copy;
+    mpz_init(mpz_val);
+    mpz_init(mpz_copy);
+    mpz_set_ui(mpz_val, 0);
+    mpz_set_ui(mpz_copy, 0);
 
-//     get_random_pair(&a1, &mpz_val, 3);
+    get_random_pair(&a1, &mpz_val, 3);
 
-//     convert_decimal_to_gmp(&mpz_copy, &a1);
-//     s21_decimal res = convert_gmp_to_decimal(mpz_val);
+    convert_decimal_to_gmp(&mpz_copy, &a1);
+    s21_decimal res = convert_gmp_to_decimal(mpz_val);
 
-//     if (inequality) {
-//         a1.bits[0] = rand();
-//         a1.bits[1] = rand();
-//         get_random_pair(&a1, &mpz_val, 3);
-//         a1.bits[2] = rand();
-//         res.bits[0] = -3;
+    if (inequality) {
+        a1.bits[0] = rand();
+        a1.bits[1] = rand();
+        get_random_pair(&a1, &mpz_val, 3);
+        a1.bits[2] = rand();
+        res.bits[0] = -3;
 
-//         mpz_clear(mpz_copy);
-//         mpz_clear(mpz_val);
+        mpz_clear(mpz_copy);
+        mpz_clear(mpz_val);
 
-//         ck_assert_int_eq(s21_is_not_equal(res, a1), 1);
-//     } else {
-//         /* (!) Hack. Change this to our own function */
-//         tmp_normalize_exponent(&a1);
+        ck_assert_int_eq(s21_is_not_equal(res, a1), 1);
+    } else {
+        /* (!) Hack. Change this to our own function */
+        tmp_normalize_exponent(&a1);
 
-//         int expected = mpz_cmp(mpz_val, mpz_copy);
-//         int got = !(s21_is_equal(a1, res));
+        int expected = mpz_cmp(mpz_val, mpz_copy);
+        int got = !(s21_is_equal(a1, res));
 
-//         mpz_clear(mpz_copy);
-//         mpz_clear(mpz_val);
+        mpz_clear(mpz_copy);
+        mpz_clear(mpz_val);
 
-//         ck_assert_int_eq(got, abs(expected));
-//     }
-// }
-// END_TEST
+        ck_assert_int_eq(got, abs(expected));
+    }
+}
+END_TEST
 
 START_TEST(equality_all_zeros) {
     s21_decimal n1 = {0};
@@ -107,15 +108,6 @@ START_TEST(hardcoded_decimal_loop) {
     int got_eq = s21_is_equal(n1, n2);
     int got_ineq = s21_is_not_equal(n1, n3);
 
-#ifdef DEBUG
-    if (got_ineq) {
-        printf("N1: ");
-        print_bits_r(n1);
-        printf("N2: ");
-        print_bits_r(n3);
-    }
-#endif
-
     ck_assert_int_eq(got_eq, true);
 
     if (!both_all_zeroes(n1, n3)) {
@@ -131,15 +123,9 @@ Suite *suite_s21_is_or_not_equal(void) {
     TCase *tc = tcase_create("s21_is_or_not_equal_tc");
 
     tcase_add_loop_test(tc, hardcoded_decimal_loop, 0, 100);
-    tcase_add_test(tc, equality_all_zeros);
-
-    /* (!) GMP tests are commented out because of existing incompatibilities between */
-    /* decimal type & GMP. We need to fix GMP <-> decimal converters */
-
     tcase_add_loop_test(tc, gmp_random, 0, 100);
-    /* All zeroes are the only possible special case here */
-    // /* Randomly tests inequality in ~50% of cases */
-    // tcase_add_loop_test(tc, gmp_random_inequality, 0, 100);
+    tcase_add_loop_test(tc, gmp_random_inequality, 0, 100);
+    tcase_add_test(tc, equality_all_zeros);
 
     suite_add_tcase(s, tc);
     return s;

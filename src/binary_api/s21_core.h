@@ -57,6 +57,8 @@ void set_exponent(s21_decimal *decimal, int new_exponent);
 void set_bit_1(s21_decimal *n, int pos);
 void set_bit_0(s21_decimal *n, int pos);
 
+void s21_normalize_decimal_pair(s21_decimal *a, s21_decimal *b, int *overflow);
+
 int get_bit(s21_decimal n, int pos);
 void init_zero(s21_decimal *n);
 

@@ -17,8 +17,6 @@ static bool s21_is_greater_positive(s21_decimal a, s21_decimal b);
 
 static bool s21_is_greater_positive(s21_decimal a, s21_decimal b) {
     for (int i = 2; i >= 0; i--) {
-        printf("[%d] A: %u B: %u\n", i, a.bits[i], b.bits[i]);
-
         if (a.bits[i] == b.bits[i]) {
             continue;
         } else {
@@ -30,9 +28,6 @@ static bool s21_is_greater_positive(s21_decimal a, s21_decimal b) {
 }
 
 int s21_is_greater(s21_decimal a, s21_decimal b) {
-    apply_exponent_to_decimal(&a);
-    apply_exponent_to_decimal(&b);
-
     bool both_zeroes = both_all_zeroes(a, b);
     bool res = false;
     bool sign1 = get_sign(a), sign2 = get_sign(b);

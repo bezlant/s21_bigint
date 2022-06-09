@@ -1,3 +1,15 @@
+/**
+ * @file s21_decimal_test.h
+ * @author Mikhail Kuznetsov (mikhail.n.kuznetsov@gmail.com)
+ *
+ * @brief
+ * @version 0.1
+ * @date 09-06-2022
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #ifndef TEST
 #define TEST
 
@@ -16,7 +28,6 @@
 #include <time.h>
 
 #include "../s21_decimal.h"
-
 #include "gmp.h"
 
 #define GRN "\033[0;92m"
@@ -32,8 +43,8 @@ void apply_exponent_to_decimal(s21_decimal *dec);
 s21_decimal get_random_int_decimal(void);
 s21_decimal get_random_decimal(int size, int exp);
 
-// gmp manipulation
 s21_decimal convert_gmp_to_decimal(mpz_t input);
+
 void convert_decimal_to_gmp(mpz_t *gmp, s21_decimal *dec);
 int get_random_pair(s21_decimal *in, mpz_t *in_mpz_copy, int size);
 void apply_exponent_to_mpz(mpz_t *src, int exp);

@@ -40,7 +40,6 @@
 void apply_exponent_to_decimal(s21_decimal *dec);
 
 // decimal manipulation
-s21_decimal get_random_int_decimal(void);
 s21_decimal get_random_decimal(int size, int exp);
 
 s21_decimal convert_gmp_to_decimal(mpz_t input);
@@ -69,8 +68,6 @@ void print_bits_r_set(s21_decimal d, int set_n);
 void print_bits(s21_decimal d);
 void print_bits_r(s21_decimal d);
 void print_bits_no_exp(s21_decimal d);
-
-s21_decimal get_random_decimal_size(int size, int min_exp, int max_exp);
 
 /* Our functions test */
 Suite *suite_convert_gmp_to_decimal(void);

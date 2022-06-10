@@ -96,9 +96,9 @@ START_TEST(equality_all_zeros) {
 END_TEST
 
 START_TEST(hardcoded_decimal_loop) {
-    s21_decimal n1 = get_random_decimal_size(get_rand(0, 96), 0, get_rand(0, 26));
+    s21_decimal n1 = get_random_decimal(get_rand(0, 3), get_rand(0, 26));
     s21_decimal n2 = n1;
-    s21_decimal n3 = get_random_decimal_size(get_rand(0, 96), 0, get_rand(0, 26));
+    s21_decimal n3 = get_random_decimal(get_rand(0, 3), get_rand(0, 26));
 
     int got_eq = s21_is_equal(n1, n2);
     int got_ineq = s21_is_not_equal(n1, n3);

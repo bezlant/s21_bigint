@@ -1,4 +1,4 @@
-#include "s21_core.h"
+#include "../s21_decimal.h"
 
 void init_decimal(s21_decimal *decimal) {
     memset(decimal, 0, sizeof(*decimal));

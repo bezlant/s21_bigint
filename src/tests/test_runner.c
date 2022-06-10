@@ -41,7 +41,7 @@ void run_tests(void) {
         suite_s21_is_less_or_equal(),
         suite_s21_is_greater(),
         suite_s21_is_greater_or_equal(),
-        // suite_s21_is_or_not_equal(),
+        suite_s21_is_or_not_equal(),
         // suite_convert_gmp_to_decimal(),
         // suite_convert_decimal_to_gmp(),
         //    suite_s21_from_int_to_decimal(),

@@ -9,7 +9,7 @@ START_TEST(decimal_random_noexp_unsigned) {
 
     // This test is expected to fail only if uint32 overflow happens, which is
     // very unlikely. Thus, there is no special logic for this case.
-    dec2.bits[2] += 1;
+    dec1.bits[2] += 1;
 
     ck_assert_int_eq(s21_is_greater_or_equal(dec1, dec2), true);
 }
@@ -27,7 +27,7 @@ START_TEST(decimal_random_noexp_signed) {
         // NEG > NEG
         if (s1 && s2) {
             dec1.bits[2] = dec2.bits[2];
-            dec1.bits[2] += 100;
+            dec1.bits[2] -= 1000;
             ck_assert_int_eq(s21_is_greater_or_equal(dec1, dec2), true);
         }
 
@@ -41,7 +41,7 @@ START_TEST(decimal_random_noexp_signed) {
             ck_assert_int_eq(s21_is_greater_or_equal(dec1, dec2), true);
         }
 
-        // POS < POS
+        // POS > POS
         if (!s1 && !s2) {
             dec1.bits[2] = dec2.bits[2];
             dec1.bits[2] += 10000;
@@ -75,7 +75,7 @@ START_TEST(decimal_random_exp_unsigned) {
     s21_normalize_decimal_pair(&dec1, &dec2, &overflow);
 
     if (!zeroes && !overflow && e1 != e2) {
-        if (e1 > e2) {
+        if (e1 < e2) {
             ck_assert_int_eq(res, true);
         } else {
             ck_assert_int_eq(res, false);
@@ -84,13 +84,43 @@ START_TEST(decimal_random_exp_unsigned) {
 }
 END_TEST
 
+START_TEST(all_zeroes) {
+    s21_decimal n1 = {0};
+    s21_decimal n2 = {0};
+    set_sign_neg(&n1);
+
+    s21_decimal n3 = {0};
+    s21_decimal n4 = {0};
+    set_exponent(&n3, 5);
+
+    s21_decimal n5 = {0};
+    set_sign_pos(&n5);
+    set_exponent(&n5, 10);
+    s21_decimal n6 = {0};
+    set_sign_neg(&n6);
+
+    // (1) zeros + different sign bit (+0 and -0)
+    // (2) zeros + diff exponent (0e-25 && 0e-1)
+    // (3) signs + exponents + zeros (+0e-3 && -0e5)
+
+    int got1 = s21_is_greater_or_equal(n1, n2);
+    int got2 = s21_is_greater_or_equal(n3, n4);
+    int got3 = s21_is_greater_or_equal(n5, n6);
+
+    ck_assert_int_eq(got1, true);
+    ck_assert_int_eq(got2, true);
+    ck_assert_int_eq(got3, true);
+}
+END_TEST
+
 Suite *suite_s21_is_greater_or_equal(void) {
     Suite *s = suite_create(PRETTY_PRINT("s21_is_greater_or_equal"));
     TCase *tc = tcase_create("s21_is_greater_or_equal_tc");
 
-    tcase_add_loop_test(tc, decimal_random_noexp_unsigned, 0, 100);
-    tcase_add_loop_test(tc, decimal_random_noexp_signed, 0, 100);
-    tcase_add_loop_test(tc, decimal_random_exp_unsigned, 0, 100);
+    tcase_add_loop_test(tc, decimal_random_noexp_unsigned, 0, 5000);
+    tcase_add_loop_test(tc, decimal_random_noexp_signed, 0, 1000);
+    tcase_add_loop_test(tc, decimal_random_exp_unsigned, 0, 5000);
+    tcase_add_test(tc, all_zeroes);
 
     suite_add_tcase(s, tc);
     return s;

@@ -2,8 +2,8 @@
 #define S21_DECIMAL_CORE_H
 
 #include <math.h>
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 
 // checks if a bit is set

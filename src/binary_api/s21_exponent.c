@@ -5,7 +5,7 @@
  * exponent. This is done via multiplication by 10 of decimal with the
  * smallest exponent.
  *
- * In case of overflow the flag is raised
+ * In case of overflow the flag is raised.
  *
  * @param [a, b] - pair of decimals that need to be normalized to the same
  * exponent

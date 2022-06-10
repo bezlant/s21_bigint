@@ -1,10 +1,10 @@
-#include "../s21_decimal.h"
-
 #ifndef S21_DECIMAL_CORE_H
 #define S21_DECIMAL_CORE_H
 
 #include <math.h>
 #include <stdint.h>
+#include <stdbool.h>
+#include <stdio.h>
 
 // checks if a bit is set
 #define IS_SET(X, POS) ((X >> POS) & 1U)

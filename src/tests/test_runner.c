@@ -34,7 +34,7 @@ void run_tests(void) {
     Suite *list_cases[] = {
         suite_s21_add(),
         suite_s21_sub(),
-        suite_s21_mul(),
+        // suite_s21_mul(),
         // suite_s21_div(),
         //    suite_s21_mod(),
         suite_s21_is_less(),

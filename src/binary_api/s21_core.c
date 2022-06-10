@@ -1,9 +1,5 @@
 #include "../s21_decimal.h"
 
-void init_decimal(s21_decimal *decimal) {
-    memset(decimal, 0, sizeof(*decimal));
-}
-
 // returns 0 meaning positive 1 negative
 bool get_sign(s21_decimal decimal) { return IS_SET(decimal.bits[3], D_SIGN); }
 void set_sign_neg(s21_decimal *decimal) { ADD_BIT(decimal->bits[3], D_SIGN); }

@@ -46,7 +46,6 @@ typedef enum {
 typedef enum { CONVERTATION_OK = 0,
                CONVERTATION_ERROR = 1 } convertation_result;
 
-void init_decimal(s21_decimal *decimal);
 // returns 0 meaning positive 1 negative
 bool get_sign(s21_decimal decimal);
 void set_sign_neg(s21_decimal *decimal);

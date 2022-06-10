@@ -1,5 +1,4 @@
-#include "s21_core.h"
-
+#include "../s21_decimal.h"
 s21_decimal binary_addition(s21_decimal value_1, s21_decimal value_2,
                             int *err) {
     s21_decimal carry;

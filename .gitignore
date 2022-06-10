@@ -1,6 +1,7 @@
 Session.vim
 notes.md
 test
+.vscode/settings.json
 */objs/
 */coverage
 /src/coverage.info

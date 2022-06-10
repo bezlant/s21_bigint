@@ -59,6 +59,6 @@ static bool s21_is_less_positive(s21_decimal a, s21_decimal b) {
             return a.bits[i] < b.bits[i];
         }
     }
-
+    
     return false;
 }

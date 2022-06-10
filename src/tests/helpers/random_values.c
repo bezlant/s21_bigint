@@ -1,7 +1,11 @@
 #include "../s21_decimal_test.h"
 
 static void set_random_pair_sign(s21_decimal *dec, mpz_t *in_mpz_copy);
+
+#ifdef DEBUG
 static void debug_print_pair(s21_decimal *dec, mpz_t *big, bool exp_applied);
+#endif
+
 static void get_random_binary_string(s21_decimal *dec, char *mpz_bin_str,
                                      int size);
 
@@ -19,9 +23,15 @@ int get_random_pair(s21_decimal *in, mpz_t *in_mpz_copy, int size) {
      * indeed */
     /* get equal numbers (if we reverse our decimal representation) */
 
+#ifdef DEBUG
     debug_print_pair(in, in_mpz_copy, false);
+#endif
+
     apply_exponent_to_mpz(in_mpz_copy, exp);
-    debug_print_pair(in, in_mpz_copy, true);
+
+#ifdef DEBUG
+    debug_print_pair(in, in_mpz_copy, false);
+#endif
 
     set_random_pair_sign(in, in_mpz_copy);
 
@@ -48,6 +58,8 @@ static void get_random_binary_string(s21_decimal *in, char *mpz_bin_str,
         in->bits[j] = reverse_bits(in->bits[j]);
 }
 
+#ifdef DEBUG
+
 static void debug_print_pair(s21_decimal *dec, mpz_t *big, bool exp_applied) {
     printf("=================\n");
 
@@ -64,6 +76,8 @@ static void debug_print_pair(s21_decimal *dec, mpz_t *big, bool exp_applied) {
     print_mpz_decimal(*big);
     printf("=================\n");
 }
+
+#endif
 
 static void set_random_pair_sign(s21_decimal *dec, mpz_t *in_mpz_copy) {
     if (get_rand(0, 1)) {

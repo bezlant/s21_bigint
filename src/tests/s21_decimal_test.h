@@ -1,15 +1,3 @@
-/**
- * @file s21_decimal_test.h
- * @author Mikhail Kuznetsov (mikhail.n.kuznetsov@gmail.com)
- *
- * @brief
- * @version 0.1
- * @date 09-06-2022
- *
- * @copyright Copyright (c) 2022
- *
- */
-
 #ifndef TEST
 #define TEST
 

@@ -51,7 +51,7 @@ int shiftl(s21_decimal *a) {
 
     if (b2_tmp) set_bit_1(a, 64);
 
-    return (is_overflow) ? OVERFLOW : 0;
+    return (is_overflow);
 }
 
 /**

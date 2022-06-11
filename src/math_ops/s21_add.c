@@ -1,7 +1,5 @@
 #include "../s21_decimal.h"
 
-static int s21_check_infinity(int code, int sign);
-
 static void handle_exponent_add(s21_decimal value_1, s21_decimal value_2,
                                 s21_decimal *result, int *code);
 
@@ -15,10 +13,10 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     } else if (s1 == POS && s2 == NEG) {
         /* There was a BUG that caused stack overflow */
         set_sign_pos(&value_2);
-        s21_sub(value_1, value_2, result);
+        code = s21_sub(value_1, value_2, result);
     } else if (s1 == NEG && s2 == POS) {
         set_sign_pos(&value_1);
-        s21_sub(value_2, value_1, result);
+        code = s21_sub(value_2, value_1, result);
     } else if (s1 == NEG && s2 == NEG) {
         handle_exponent_add(value_1, value_2, result, &code);
         set_sign_neg(result);
@@ -46,7 +44,7 @@ static void handle_exponent_add(s21_decimal value_1, s21_decimal value_2,
         /* NORMALIZATION OF EXPONENT */
         for (int i = 0; i < abs(exp_v1 - exp_v2) && *code != OVERFLOW; i++) {
             value_2_check_overflow = binary_multiplication(value_2, get_power_of_ten(1), code);
-            if (*code == OVERFLOW)
+            if (*code == S21_INFINITY)
                 break;
             set_exponent(&value_1, get_exponent(value_1) - 1);
             res_exp++;
@@ -55,7 +53,7 @@ static void handle_exponent_add(s21_decimal value_1, s21_decimal value_2,
     }
 
     /* ADDITION OPERATION */
-    if (*code == OVERFLOW) {
+    if (*code == S21_INFINITY) {
         // BANK_ROUNDING_REQUIRED
         /* Bank rounding happens when we fail to normalize compounds */
         if (s21_is_greater_or_equal(value_1, get_05())) {
@@ -69,7 +67,7 @@ static void handle_exponent_add(s21_decimal value_1, s21_decimal value_2,
         // Commented out, because BANK_ROUNDING situation is conventionally valid & not an overflow
         // but even here we may have an integer overflow in we sum(MAX_DEC, 1)
         /* We RE-assign overflow, because binary addition may clear code value */
-        // *code = OVERFLOW;
+        *code = S21_INFINITY;
     } else {
         /* (!) Normal addition with normalized exponents */
         *result = binary_addition(value_1, value_2, code);
@@ -78,7 +76,7 @@ static void handle_exponent_add(s21_decimal value_1, s21_decimal value_2,
     set_exponent(result, res_exp);
 }
 
-static int s21_check_infinity(int code, int sign) {
+int s21_check_infinity(int code, int sign) {
     int res = ARITHMETIC_OK;
 
     if (code == S21_INFINITY) {

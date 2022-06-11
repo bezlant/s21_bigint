@@ -22,8 +22,7 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
         code = s21_add(value_1, value_2, result);
     }
 
-    code = code == 1 ? get_sign(*result) ? S21_NEGATIVE_INFINITY : S21_INFINITY
-                     : 0;
+    code = s21_check_infinity(code, get_sign(*result));
 
     return code;
 }

@@ -53,6 +53,8 @@ START_TEST(gcc_128_bits) {
     long long long_a = get_random_ll() * rand();
     long long long_b = get_random_ll() * rand();
 
+
+#define DEBUG
 #ifdef DEBUG
     printf("long_a  =%lld\n", long_a);
     printf("long_b  =%lld\n", long_b);
@@ -61,6 +63,7 @@ START_TEST(gcc_128_bits) {
     __int128_t a = long_a;
     __int128_t b = long_b;
     __int128_t mul = a * b;
+
     s21_decimal res128 = bigint_to_decimal(mul);
 
 

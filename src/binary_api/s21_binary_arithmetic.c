@@ -18,7 +18,7 @@
     1:     0110 1011
     2:     0001 1010
     New 1: 0111 0001
-    
+
     5. Если Керри не ноль (если еще есть что прибавлять), то продолжаем цикл
  */
 
@@ -59,6 +59,7 @@ s21_decimal binary_multiplication(s21_decimal value_1, s21_decimal value_2,
         if (!eq_zero(bit_and(value_2, get_power_of_ten(0)))) {
             result = binary_addition(result, value_1, err);
         }
+
         *err = shiftl(&value_1);
         shiftr(&value_2);
     }
@@ -74,7 +75,7 @@ s21_decimal binary_division(s21_decimal value_1, s21_decimal value_2,
         for (int i = 95 - byte_len(value_2); i >= 0; --i) {
             if (s21_is_less_or_equal(shiftnl_ret(value_2, i), value_1)) {
                 value_1 =
-                    binary_subtraction(value_1, shiftnl_ret(value_2, i), code);
+                    binary_subtraction(value_1, shiftnl_ret(value_2, i), cod);
                 result = bit_or(result, shiftnl_ret(get_power_of_ten(0), i));
             }
         }

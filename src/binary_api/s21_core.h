@@ -10,8 +10,6 @@ typedef struct {
     int bits[4];
 } s21_decimal;
 
-
-
 void smart_set_bit(s21_decimal *a, int pos);
 int smart_get_bit(s21_decimal a, int pos);
 // checks if a bit is set

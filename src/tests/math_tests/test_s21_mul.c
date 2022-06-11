@@ -67,21 +67,27 @@ START_TEST(gcc_128_bits) {
     s21_decimal res128 = bigint_to_decimal(mul);
 
 
-    s21_decimal dec_a = ll_to_decimal(long_a);
+    // s21_decimal dec_a = ll_to_decimal(long_a);
+    // s21_decimal dec_b = ll_to_decimal(long_b);
+
+    s21_decimal dec_a = {0};
+    s21_decimal dec_b = {0};
 
 #ifdef DEBUG
     printf("dec_a=");
     print_bits_r(dec_a);
-#endif
 
-    s21_decimal dec_b = ll_to_decimal(long_b);
-
-#ifdef DEBUG
     printf("dec_b=");
     print_bits_r(dec_a);
 #endif
 
     s21_decimal dec_mul = {0};
+
+
+
+    dec_a.bits[0] = 3;
+    dec_a.bits[1] = 3;
+    dec_a.bits[5] = 3;
 
     s21_mul(dec_a, dec_b, &dec_mul);
 

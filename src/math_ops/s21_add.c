@@ -66,8 +66,7 @@ static void handle_exponent_add(s21_decimal value_1, s21_decimal value_2,
 
         // Commented out, because BANK_ROUNDING situation is conventionally valid & not an overflow
         // but even here we may have an integer overflow in we sum(MAX_DEC, 1)
-        /* We RE-assign overflow, because binary addition may clear code value */
-        *code = S21_INFINITY;
+        // *code = S21_INFINITY;
     } else {
         /* (!) Normal addition with normalized exponents */
         *result = binary_addition(value_1, value_2, code);

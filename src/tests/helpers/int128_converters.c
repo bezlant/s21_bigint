@@ -26,9 +26,18 @@ s21_decimal bigint_to_decimal(__int128_t src) {
     return res;
 }
 
-long long get_random_ll() {
+long long get_random_ll(void) {
     unsigned long long val = 0;
     for (int i = 0; i < 64; i++)
+        if (rand() % 2)
+            ADD_BIT(val, i);
+
+    return val;
+}
+
+short int get_random_short(void) {
+    short int val = 0;
+    for (int i = 0; i < 16; i++)
         if (rand() % 2)
             ADD_BIT(val, i);
 

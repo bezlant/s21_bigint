@@ -135,7 +135,6 @@ START_TEST(divison_by_one) {
 
     set_bit_1(&b, 0);
 
-
     // print_bits_r(a);
     // print_bits_r(b);
     s21_decimal res = {0};
@@ -156,22 +155,55 @@ START_TEST(divison_by_two) {
     // set_bit_1(&a, 1);
     // set_bit_1(&a, 3);
 
-    a.bits[0] = 10;
-    b.bits[0] = 2;
+    a.bits[0] = get_rand(0, INT_MAX);
+    b.bits[0] = a.bits[0] / 2;
 
-    print_bits_r(a);
-    print_bits_r(b);
+    // print_bits_r(a);
+    // print_bits_r(b);
 
-    printf("A IS LESS B: %d \n", s21_is_less(a, b));
-    printf("A IS GREATER B: %d \n", s21_is_greater(a, b));
+    // printf("A IS LESS B: %d \n", s21_is_less(a, b));
+    // printf("A IS GREATER B: %d \n", s21_is_greater(a, b));
 
     s21_decimal res = {0};
+
     int code = s21_div(a, b, &res);
-    printf("CODE : %d\n", code);
-    print_bits_r(res);
+    // printf("CODE : %d\n", code);
+    // print_bits_r(res);
+
+    ck_assert_int_eq(res.bits[0], 2);
 }
 END_TEST
 
+START_TEST(divison_by_rand_int) {
+    s21_decimal a = {0};
+    s21_decimal b = {0};
+
+    // set_bit_1(&a, 1);
+    // set_bit_1(&a, 3);
+
+again:
+
+    a.bits[0] = get_rand(0, INT_MAX);
+    b.bits[0] = get_rand(0, INT_MAX);
+
+    if (a.bits[0] < b.bits[0])
+        goto again;
+
+    // print_bits_r(a);
+    // print_bits_r(b);
+
+    // printf("A IS LESS B: %d \n", s21_is_less(a, b));
+    // printf("A IS GREATER B: %d \n", s21_is_greater(a, b));
+
+    s21_decimal res = {0};
+
+    int code = s21_div(a, b, &res);
+    // printf("CODE : %d\n", code);
+    // print_bits_r(res);
+
+    ck_assert_int_eq(res.bits[0], a.bits[0] / b.bits[0]);
+}
+END_TEST
 
 Suite *suite_s21_div(void) {
     Suite *s = suite_create("suite_s21_div");
@@ -180,8 +212,9 @@ Suite *suite_s21_div(void) {
     /* tcase_add_loop_test(tc, div_test1, 0, 1); */
     /* tcase_add_loop_test(tc, loop_division_mpz, 0, 10000); */
     // tcase_add_loop_test(tc, gcc_128_bits, 0, 1);
-    // tcase_add_loop_test(tc, divison_by_one, 0, 5);
-    tcase_add_loop_test(tc, divison_by_two, 0, 1);
+    tcase_add_loop_test(tc, divison_by_one, 0, 5);
+    tcase_add_loop_test(tc, divison_by_two, 0, 1000);
+    tcase_add_loop_test(tc, divison_by_rand_int, 0, 1000);
 
     suite_add_tcase(s, tc);
     return s;

@@ -59,7 +59,15 @@ s21_decimal div_core(s21_decimal a, s21_decimal b, s21_decimal *result, int *cod
         return temp;
     }
 
+    set_exponent(&a, 0);
+    set_exponent(&b, 0);
+    set_exponent(&temp, 0);
+
     while (s21_is_less_or_equal(b, a)) {
+        set_exponent(&a, 0);
+        set_exponent(&b, 0);
+        set_exponent(&temp, 0);
+
         shiftl(&b);
         shiftl(result);
         printf("MOVING LEFT!\n");
@@ -75,7 +83,15 @@ s21_decimal div_core(s21_decimal a, s21_decimal b, s21_decimal *result, int *cod
         print_bits_r(b);
     }
 
+    set_bit_0(&a, 95);
+    set_bit_0(&b, 95);
+
+    set_exponent(&a, 0);
+    set_exponent(&b, 0);
+    set_exponent(&temp, 0);
+
     s21_sub(a, b, &temp);
+
     /* DIRTY HACK (!) Sometimes for unknown reasons sub incorrectly sets 95th bit. */
     /* But, generally, values are correct.  */
     set_bit_0(&temp, 95);

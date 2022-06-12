@@ -1,7 +1,7 @@
 #include "../s21_decimal.h"
 #include "../tests/s21_decimal_test.h"
 
-s21_decimal div_core(s21_decimal a, s21_decimal b, s21_decimal *result, int *code);
+static s21_decimal div_core(s21_decimal a, s21_decimal b, s21_decimal *result, int *code);
 
 int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     if (eq_zero(value_2)) return S21_NAN;
@@ -44,7 +44,7 @@ void handle_exponent_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *
     }
 }
 
-s21_decimal div_core(s21_decimal a, s21_decimal b, s21_decimal *result, int *code) {
+static s21_decimal div_core(s21_decimal a, s21_decimal b, s21_decimal *result, int *code) {
     s21_decimal divcopy = b;
     s21_decimal temp = {0};
     s21_decimal one = {0};
@@ -57,7 +57,7 @@ s21_decimal div_core(s21_decimal a, s21_decimal b, s21_decimal *result, int *cod
         return temp;
     }
 
-    while (s21_is_less_or_equal(b, a)) {
+    while (s21_is_less_or_equal(b, a) && !get_bit(b, 95)) {
         shiftl(&b);
         shiftl(result);
     }

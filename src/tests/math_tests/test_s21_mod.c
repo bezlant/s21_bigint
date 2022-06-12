@@ -148,6 +148,43 @@ START_TEST(equal_decimals) {
 }
 END_TEST
 
+/**
+ * @brief This test is very important. It checks the mere fact
+ * that remainder exists in a pair of two random inequal decimals.
+ *
+ * It is important, because existence of remainder is determines
+ * whether we launch (1) integer division OR (2) float division.
+ *
+ * @input: pair of random inequal decimals with random exponents.
+ * @output: (bool) exponent is non-zero
+ */
+
+START_TEST(mod_exists) {
+    s21_decimal a = {0};
+    s21_decimal b = {0};
+    s21_decimal res = {0};
+
+    /* generating two random NON-equal & NON-zero decimals */
+    while (a.bits[0] >= b.bits[0] || b.bits[0] == 0 || s21_is_equal(a, b)) {
+        a.bits[0] = get_rand(0, INT_MAX);
+        b.bits[0] = get_rand(0, INT_MAX);
+        a.bits[1] = get_rand(0, INT_MAX);
+        b.bits[1] = get_rand(0, INT_MAX);
+        a.bits[2] = get_rand(0, INT_MAX);
+        b.bits[2] = get_rand(0, INT_MAX);
+        set_exponent(&a, get_rand(0, 28));
+        set_exponent(&b, get_rand(0, 28));
+    }
+
+    int code = s21_mod(a, b, &res);
+
+    ck_assert_int_eq(code, ARITHMETIC_OK);
+
+    int mod_exists = (res.bits[0] || res.bits[1] || res.bits[2]);
+    ck_assert_int_eq(mod_exists, true);
+}
+END_TEST
+
 Suite *suite_s21_mod(void) {
     Suite *s = suite_create(PRETTY_PRINT("s21_mod"));
     TCase *tc = tcase_create("s21_mod_tc");
@@ -159,6 +196,7 @@ Suite *suite_s21_mod(void) {
     tcase_add_loop_test(tc, even_or_odd_mod, 0, 1000);
     tcase_add_loop_test(tc, gcc_128_bits, 0, 1000);
     tcase_add_loop_test(tc, mod_by_rand_int, 0, 1000);
+    tcase_add_loop_test(tc, mod_exists, 0, 1000000);
 
     /**
      *   @info: Test stats for mod:

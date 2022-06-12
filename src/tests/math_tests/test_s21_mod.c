@@ -93,7 +93,7 @@ START_TEST(mod_by_rand_int) {
     }
 
     int code = s21_mod(a, b, &res);
-    int64_t expected = a.bits[0] % b.bits[0];
+    uint32_t expected = a.bits[0] % b.bits[0];
 
     ck_assert_int_eq(code, ARITHMETIC_OK);
     ck_assert_int_eq(res.bits[0], expected);
@@ -196,7 +196,7 @@ Suite *suite_s21_mod(void) {
     tcase_add_loop_test(tc, even_or_odd_mod, 0, 1000);
     tcase_add_loop_test(tc, gcc_128_bits, 0, 1000);
     tcase_add_loop_test(tc, mod_by_rand_int, 0, 1000);
-    tcase_add_loop_test(tc, mod_exists, 0, 1000000);
+    tcase_add_loop_test(tc, mod_exists, 0, 10000);
 
     /**
      *   @info: Test stats for mod:

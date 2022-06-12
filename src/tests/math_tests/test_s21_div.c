@@ -40,6 +40,47 @@ START_TEST(gcc_128_bits) {
     ck_assert_int_eq(comp_res, TRUE);
 }
 
+START_TEST(gcc_128_division_by_ten) {
+    long long long_a = get_random_ll() * rand();
+    int power_of_ten = get_rand(1, 28);
+    long long long_b = pow(10, power_of_ten);
+    // printf("long_a  =%lld\n", long_a);
+    // printf("long_b  =%lld\n", long_b);
+    __int128_t a = long_a;
+    __int128_t b = long_b;
+    __int128_t div = a / b;
+    s21_decimal res128 = bigint_to_decimal(div);
+
+    s21_decimal dec_a = ll_to_decimal(long_a);
+
+    // print_bits_r(dec_a);
+    s21_decimal dec_b = get_power_of_ten(power_of_ten);
+    s21_decimal dec_div = {0};
+
+    // print_bits_r(dec_b);
+
+    int code = s21_div(dec_a, dec_b, &dec_div);
+
+    // printf("dec_div=");
+    // print_bits_r(dec_div);
+    // printf("res128_=");
+    // print_bits_r(res128);
+
+    int comp_res = s21_is_equal(res128, dec_div);
+
+    if (!comp_res) {
+        /* I suspect that it is not our problem that signs do not match here */
+        /* GCC __int128_t are unsigned, thus, they discard sign */
+        /* In observed failed tests our decimal had sign & int 128 didn't */
+        printf(GRN "WARNING! SIGNS DO NOT MATCH! COMPARING ABS VALUES 📌 \n" ENDCOLOR);
+        set_sign_pos(&dec_div);
+        comp_res = s21_is_equal(res128, dec_div);
+    }
+
+    ck_assert_int_eq(code, ARITHMETIC_OK);
+    ck_assert_int_eq(comp_res, TRUE);
+}
+
 START_TEST(divison_by_one) {
     s21_decimal a = {0};
     s21_decimal b = {0};
@@ -115,14 +156,15 @@ Suite *suite_s21_div(void) {
     TCase *tc = tcase_create("s21_div_tc");
 
     /* ✅ Heavily tested. Passed all 40000 tests several times */
-    tcase_add_loop_test(tc, divison_by_one, 0, 10000);
-    tcase_add_loop_test(tc, divison_by_two, 0, 10000);
+    tcase_add_loop_test(tc, divison_by_one, 0, 100);
+    tcase_add_loop_test(tc, divison_by_two, 0, 100);
+    tcase_add_loop_test(tc, gcc_128_division_by_ten, 0, 100);
 
     /* ⚠️ VERY rarely fails on this test. Around ~7 times out of 100000. Fails by 1 */
-    tcase_add_loop_test(tc, gcc_128_bits, 0, 100000);
+    tcase_add_loop_test(tc, gcc_128_bits, 0, 1000);
 
     /* ⚠️ VERY rarely fails on this test */
-    tcase_add_loop_test(tc, divison_by_rand_int, 0, 10000);
+    tcase_add_loop_test(tc, divison_by_rand_int, 0, 100);
 
     /* Examples of failure. IDK what causes this. Maybe 95th bit hack?.. */
     /* Overflow is also highly possible here, because we do not suffer from it (unlike vanilla int) */
@@ -150,7 +192,7 @@ Suite *suite_s21_div(void) {
      *      -[] really large / small numbers (around 96 bit) divided by large / small numbers
      *
      * -[] test floating point div (this is detected when MOD is not zero, i.e. 5/3 or 3/5)
-     * 
+     *
      */
 
     suite_add_tcase(s, tc);

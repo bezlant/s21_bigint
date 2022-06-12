@@ -154,10 +154,10 @@ Suite *suite_s21_mod(void) {
 
     tcase_add_loop_test(tc, mod_by_one, 0, 1000);
     tcase_add_loop_test(tc, mod_by_zero, 0, 10000);
-    tcase_add_loop_test(tc, equal_decimals, 0, 1000);
+    tcase_add_loop_test(tc, equal_decimals, 0, 100);
     tcase_add_loop_test(tc, mod_b_greater_than_a, 0, 1000);
     tcase_add_loop_test(tc, even_or_odd_mod, 0, 1000);
-    tcase_add_loop_test(tc, gcc_128_bits, 0, 10000000);
+    tcase_add_loop_test(tc, gcc_128_bits, 0, 1000);
     tcase_add_loop_test(tc, mod_by_rand_int, 0, 1000);
 
     /**

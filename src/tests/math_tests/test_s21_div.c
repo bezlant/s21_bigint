@@ -96,24 +96,6 @@
 /* // ck_assert_int_eq(1, 0); */
 /* } */
 /* END_TEST */
-START_TEST(simple_test) {
-    s21_decimal a = {0};
-    s21_decimal b = {0};
-
-    set_bit_1(&a, 1);
-    // set_bit_1(&a, 32);
-
-    set_bit_1(&b, 1);
-    // set_bit_1(&b, 32);
-
-    print_bits_r(a);
-    print_bits_r(b);
-    s21_decimal res = {0};
-    int code = s21_div(a, b, &res);
-    print_bits_r(res);
-    printf("CODE : %d\n", code);
-}
-END_TEST
 
 START_TEST(gcc_128_bits) {
     long long long_a = get_random_ll() * rand();
@@ -134,6 +116,7 @@ START_TEST(gcc_128_bits) {
     print_bits_r(dec_b);
 
     s21_div(dec_a, dec_b, &dec_div);
+
     printf("dec_div=");
     print_bits_r(dec_div);
     printf("res128_=");
@@ -142,6 +125,54 @@ START_TEST(gcc_128_bits) {
     ck_assert_int_eq(s21_is_equal(res128, dec_div), TRUE);
 }
 
+START_TEST(divison_by_one) {
+    s21_decimal a = {0};
+    s21_decimal b = {0};
+
+    a.bits[0] = get_rand(0, INT_MAX);
+    a.bits[1] = get_rand(0, INT_MAX);
+    a.bits[2] = get_rand(0, INT_MAX);
+
+    set_bit_1(&b, 0);
+
+
+    // print_bits_r(a);
+    // print_bits_r(b);
+    s21_decimal res = {0};
+    int code = s21_div(a, b, &res);
+    // print_bits_r(res);
+    // printf("CODE : %d\n", code);
+
+    ck_assert_int_eq(a.bits[0], res.bits[0]);
+    ck_assert_int_eq(a.bits[1], res.bits[1]);
+    ck_assert_int_eq(a.bits[2], res.bits[2]);
+}
+END_TEST
+
+START_TEST(divison_by_two) {
+    s21_decimal a = {0};
+    s21_decimal b = {0};
+
+    // set_bit_1(&a, 1);
+    // set_bit_1(&a, 3);
+
+    a.bits[0] = 10;
+    b.bits[0] = 2;
+
+    print_bits_r(a);
+    print_bits_r(b);
+
+    printf("A IS LESS B: %d \n", s21_is_less(a, b));
+    printf("A IS GREATER B: %d \n", s21_is_greater(a, b));
+
+    s21_decimal res = {0};
+    int code = s21_div(a, b, &res);
+    printf("CODE : %d\n", code);
+    print_bits_r(res);
+}
+END_TEST
+
+
 Suite *suite_s21_div(void) {
     Suite *s = suite_create("suite_s21_div");
     TCase *tc = tcase_create("s21_div_tc");
@@ -149,7 +180,8 @@ Suite *suite_s21_div(void) {
     /* tcase_add_loop_test(tc, div_test1, 0, 1); */
     /* tcase_add_loop_test(tc, loop_division_mpz, 0, 10000); */
     // tcase_add_loop_test(tc, gcc_128_bits, 0, 1);
-    tcase_add_loop_test(tc, simple_test, 0, 1);
+    // tcase_add_loop_test(tc, divison_by_one, 0, 5);
+    tcase_add_loop_test(tc, divison_by_two, 0, 1);
 
     suite_add_tcase(s, tc);
     return s;

@@ -18,37 +18,35 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 void handle_exponent_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result, int *code) {
     int exp_v1 = get_exponent(value_1);
     int exp_v2 = get_exponent(value_2);
+
     set_exponent(&value_1, 0);
     set_exponent(&value_2, 0);
 
     int res_exp = exp_v1 - exp_v2;
 
+    /* Edge case. Division by 1 */
     if (s21_is_equal(value_2, get_power_of_ten(0))) {
-        *result = value_2;
+        *result = value_1;
+        *code = ARITHMETIC_OK;
+    } else {
+        /* We must set 1 bit in result, because we will move this bit in div to the left */
+        init_zero(result);
+        result->bits[0] = 1;
+
+        *result = div_core(value_1, value_2, result, code);
+
+        while (res_exp < 0) {
+            *result = binary_multiplication(*result, get_power_of_ten(1), code);
+            res_exp++;
+        }
+
+        set_exponent(result, res_exp);
     }
-
-    result->bits[0] = 1;
-    result->bits[1] = 0;
-    result->bits[2] = 0;
-    result->bits[3] = 0;
-
-    // *result = binary_division(value_1, value_2, code);
-
-    *result = div_core(value_1, value_2, result, code);
-
-    // while (res_exp < 0) {
-    //     *result = binary_multiplication(*result, get_power_of_ten(1), code);
-    //     res_exp++;
-    // }
-
-    // result->bits[0] = reverse_bits(result->bits[0]);
-
-    set_exponent(result, res_exp);
 }
 
 s21_decimal div_core(s21_decimal a, s21_decimal b, s21_decimal *result, int *code) {
     s21_decimal divcopy = b;
-    s21_decimal temp = {0, 0, 0, 0};
+    s21_decimal temp = {0};
     s21_decimal one = {0};
 
     one.bits[0] = 1;
@@ -59,45 +57,21 @@ s21_decimal div_core(s21_decimal a, s21_decimal b, s21_decimal *result, int *cod
         return temp;
     }
 
-    set_exponent(&a, 0);
-    set_exponent(&b, 0);
-    set_exponent(&temp, 0);
-
     while (s21_is_less_or_equal(b, a)) {
-        set_exponent(&a, 0);
-        set_exponent(&b, 0);
-        set_exponent(&temp, 0);
-
         shiftl(&b);
         shiftl(result);
-        printf("MOVING LEFT!\n");
-        print_bits_r(a);
-        print_bits_r(b);
     }
 
     if (s21_is_less(a, b)) {
         shiftr(&b);
         shiftr(result);
-        printf("DIVISION\n");
-        print_bits_r(a);
-        print_bits_r(b);
     }
-
-    set_bit_0(&a, 95);
-    set_bit_0(&b, 95);
-
-    set_exponent(&a, 0);
-    set_exponent(&b, 0);
-    set_exponent(&temp, 0);
 
     s21_sub(a, b, &temp);
 
     /* DIRTY HACK (!) Sometimes for unknown reasons sub incorrectly sets 95th bit. */
     /* But, generally, values are correct.  */
     set_bit_0(&temp, 95);
-
-    printf("TEMP AFTER SUB IS: \n");
-    print_bits_r(temp);
 
     one = div_core(temp, divcopy, &one, code);
 

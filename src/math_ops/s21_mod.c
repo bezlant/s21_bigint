@@ -1,6 +1,6 @@
 #include "../s21_decimal.h"
 
-static s21_decimal s21_integer_mod(s21_decimal a, s21_decimal b, s21_decimal *result, int *code);
+static s21_decimal s21_integer_mod(s21_decimal dividend, s21_decimal divisor);
 void handle_exponent_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result, int *code);
 
 int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
@@ -42,7 +42,7 @@ void handle_exponent_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *
         init_zero(result);
         result->bits[0] = 1;
 
-        *result = s21_integer_mod(value_1, value_2, result, code);
+        *result = s21_integer_mod(value_1, value_2);
 
         while (res_exp < 0) {
             *result = binary_multiplication(*result, get_power_of_ten(1), code);
@@ -53,68 +53,63 @@ void handle_exponent_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *
     }
 }
 
-static s21_decimal s21_integer_mod(s21_decimal a, s21_decimal b, s21_decimal *result, int *code) {
-    s21_decimal modcopy = b;
-    s21_decimal temp = {0};
+static s21_decimal s21_integer_mod(s21_decimal dividend, s21_decimal divisor) {
+    s21_decimal original_divisor = divisor;
+    s21_decimal res = {0};
+    s21_decimal modified_dividend = {0};
     s21_decimal zero = {0};
 
-    if (s21_is_equal(a, b)) {
+    if (s21_is_equal(dividend, divisor)) {
         return zero;
-    } else if (s21_is_less(a, b)) {
-        *result = b;
-        return b;
+    } else if (s21_is_less(dividend, divisor)) {
+        return dividend;
     }
 
-    /* Our goal is to align b & a, so we are shifting b to the left */
+    /* Our goal is to align divisor & dividend, so we are shifting divisor to the left */
 
     /**
-     * a: 0101010101010101
-     * b: 0000000000000101 <---
+     * dividend: 0101010101010101
+     * divisor: 0000000000000101 <---
      *
-     * As a result we will get something like this:
+     * As dividend result we will get something like this:
      *
-     * a: 0101010101010101
-     * b: 1010000000000000 <---
+     * dividend: 0101010101010101
+     * divisor: 1010000000000000 <---
      *
-     * We got too far by one bit. Thus, we need to shift (b) to the right once.
+     * We got too far by one bit. Thus, we need to shift (divisor) to the right once.
      */
 
-    while (s21_is_less_or_equal(b, a)) {
-        shiftl(&b);
-        shiftl(result);
+    while (s21_is_less_or_equal(divisor, dividend)) {
+        shiftl(&divisor);
     }
 
-    /* Shifting (b) once */
-    if (s21_is_less(a, b)) {
-        shiftr(&b);
-        shiftr(result);
+    /* Shifting (divisor) once to correctly align it with dividend */
+    if (s21_is_less(dividend, divisor)) {
+        shiftr(&divisor);
     }
 
     /**
-     *  a: 0101010101010101
-     *  b: 0101000000000000
+     *  dividend: 0101010101010101
+     *  divisor: 0101000000000000
      *
      *  An actial modision is done via substraction.
      *
-     * @arg (temp) stores new value of (a) after substraction. It will later
+     * @arg (modified_dividend) stores new value of (dividend) after substraction. It will later
      * be passed to the recursive call of sivision.
      */
 
-    *code = s21_sub(a, b, &temp);
+    s21_sub(dividend, divisor, &modified_dividend);
 
     /* DIRTY HACK (!) Sometimes for unknown reasons sub incorrectly sets 95th bit. */
     /* But, generally, values are correct.  */
-    set_bit_0(&temp, 95);
+    set_bit_0(&modified_dividend, 95);
 
     /**
-     * @arg (modcopy) is nesessary to modide by non-modified version of modisor,
-     * because our original modisor was modified by shifting to the left.
+     * @arg (original_divisor) is nesessary to modide by non-modified version of divisor,
+     * because our original divisor was modified by shifting to the left.
      */
 
-    zero = s21_integer_mod(temp, modcopy, &zero, code);
+    res = s21_integer_mod(modified_dividend, original_divisor);
 
-    /* @arg (result) accumulates result of modision */
-    // *code = s21_add(*result, one, result);
-
-    return *result;
+    return res;
 }

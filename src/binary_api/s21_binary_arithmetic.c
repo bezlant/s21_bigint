@@ -68,6 +68,16 @@ s21_decimal binary_multiplication(s21_decimal value_1, s21_decimal value_2, int 
     return result;
 }
 
+/**
+ *
+ * @deprecated:
+ *
+ * @param value_1
+ * @param value_2
+ * @param code
+ * @return s21_decimal
+ */
+
 s21_decimal binary_division(s21_decimal value_1, s21_decimal value_2, int *code) {
     s21_decimal result = {0};
 
@@ -79,8 +89,6 @@ s21_decimal binary_division(s21_decimal value_1, s21_decimal value_2, int *code)
                 value_1 = binary_subtraction(value_1, shiftnl_ret(value_2, i), code);
                 result = bit_or(result, shiftnl_ret(get_power_of_ten(0), i));
             }
-
-            // print_bits_r(result);
         }
     }
 

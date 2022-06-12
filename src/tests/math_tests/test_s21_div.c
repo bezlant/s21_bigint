@@ -104,14 +104,14 @@ Suite *suite_s21_div(void) {
     TCase *tc = tcase_create("s21_div_tc");
 
     /* ✅ Heavily tested. Passed all 40000 tests several times */
-    // tcase_add_loop_test(tc, divison_by_one, 0, 10000);
-    // tcase_add_loop_test(tc, divison_by_two, 0, 10000);
+    tcase_add_loop_test(tc, divison_by_one, 0, 10000);
+    tcase_add_loop_test(tc, divison_by_two, 0, 10000);
 
     /* ⚠️ VERY rarely fails on this test. Around ~7 times out of 100000. Fails by 1 */
-    // tcase_add_loop_test(tc, gcc_128_bits, 0, 100000);
+    tcase_add_loop_test(tc, gcc_128_bits, 0, 100000);
 
     /* ⚠️ VERY rarely fails on this test */
-    // tcase_add_loop_test(tc, divison_by_rand_int, 0, 10000);
+    tcase_add_loop_test(tc, divison_by_rand_int, 0, 10000);
 
     /* Examples of failure. IDK what causes this. Maybe 95th bit hack?.. */
     // 99%: Checks: 40100, Failures: 2, Errors: 0

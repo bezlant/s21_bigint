@@ -1,5 +1,4 @@
 #include "../s21_decimal.h"
-#include "../tests/s21_decimal_test.h"
 
 static s21_decimal s21_integer_div(s21_decimal a, s21_decimal b, s21_decimal *result, int *code);
 

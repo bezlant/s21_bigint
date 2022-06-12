@@ -71,7 +71,7 @@ START_TEST(divison_by_rand_int) {
     s21_decimal res = {0};
 
     /* Loop ensures we do not get 0 as a result of integer div */
-    while (a.bits[0] < b.bits[0] || b.bits[0] == 0) {
+    while (a.bits[0] <= b.bits[0] || b.bits[0] == 0) {
         a.bits[0] = get_rand(0, INT_MAX);
         b.bits[0] = get_rand(0, INT_MAX);
     }

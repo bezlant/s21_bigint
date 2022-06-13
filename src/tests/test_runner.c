@@ -39,7 +39,7 @@ void run_tests(void) {
         // suite_s21_mul(),
         // suite_s21_round(),  // 🌱 [ Needs sub (sub is buggy) ]
 
-        suite_s21_sub(),  // ✅
+        // suite_s21_sub(),  // ✅
         suite_s21_add(),  // ✅ [ Tests get 111111 sometimes when 1 values is
                           // negatvie and s21_sub called]
         // suite_s21_mod(),  // 🌱 [ FEW TESTS FAILED ]

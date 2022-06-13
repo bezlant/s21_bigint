@@ -52,5 +52,7 @@ void handle_exponent_sub(s21_decimal value_1, s21_decimal value_2,
         *result = binary_subtraction(value_1, value_2, code);
     }
 
+    set_bit_0(result, 95);
+
     set_exponent(result, res_exp);
 }

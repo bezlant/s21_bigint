@@ -37,29 +37,19 @@ void handle_exponent_sub(s21_decimal value_1, s21_decimal value_2,
 
     s21_decimal value_2_origin = value_2;
 
-    if (abs(exp_v1 - exp_v2) != 0) {
-        s21_decimal value_2_check_overflow = {0};
+    s21_normalize_decimal_pair(&value_1, &value_2, code);
 
-        /* NORMALIZATION OF EXPONENT */
-        for (int i = 0; i < abs(exp_v1 - exp_v2) && *code != S21_INFINITY; i++) {
-            value_2_check_overflow = binary_multiplication(value_2, get_power_of_ten(1), code);
-            if (*code == S21_INFINITY) break;
-            set_exponent(&value_1, get_exponent(value_1) - 1);
-            res_exp++;
-            value_2 = value_2_check_overflow;
-        }
-    }
-
-    if (*code == 1) {
+    if (*code == S21_INFINITY) {
+        /* Bank rounding happens when we fail to normalize compounds */
         if (s21_is_greater_or_equal(value_1, get_05())) {
-            // printf("WAS1\n");
+            /* -1 */
             *result = binary_subtraction(value_2, get_power_of_ten(0), code);
         } else {
-            // printf("WAS2\n");
+            /* -0 - leave as it was */
             *result = value_2_origin;
         }
     } else {
-        *result = binary_subtraction(value_2, value_1, code);
+        *result = binary_subtraction(value_1, value_2, code);
     }
 
     set_exponent(result, res_exp);

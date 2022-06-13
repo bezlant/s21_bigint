@@ -1,5 +1,14 @@
 #include "../s21_decimal_test.h"
 
+__int128_t int128_round(int sum) {
+    __int128_t digit = sum;
+    while (digit > 10)
+        digit /= 10;
+    if (digit >= 5)
+        sum++;
+    return sum;
+}
+
 __int128_t int128_pow(int val, int exp) {
     __int128_t res = 1;
     while (exp--)
@@ -45,7 +54,7 @@ long long get_random_ll(void) {
 
 short int get_random_short(void) {
     short int val = 0;
-    for (uint64_t i = 0; i < 16; i++)
+    for (int i = 0; i < 16; i++)
         if (rand() % 2)
             ADD_BIT(val, i);
 

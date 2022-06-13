@@ -126,8 +126,13 @@
 /* END_TEST */
 
 START_TEST(gcc_128_bits) {
-    long long long_a = get_random_ll() * rand();
-    long long long_b = get_random_ll() * rand();
+    long long long_a = -1;
+    long long long_b = 0;
+
+    while (long_a < long_b) {
+        long_a = get_random_ll() * rand();
+        long_b = get_random_ll() * rand();
+    }
 
     __int128_t a = long_a;
     __int128_t b = long_b;
@@ -140,12 +145,15 @@ START_TEST(gcc_128_bits) {
 
     s21_sub(dec_a, dec_b, &dec_sub);
 
+    /* This DOES NOT produce correct result, although it brings res quite close */
+    /* dec_sub = bit_not(dec_sub); */
+
     bool comp_res = s21_is_equal(res128, dec_sub);
 
     if (comp_res == false) {
         printf(RED "1:  " ENDCOLOR);
         print_bits_r(dec_sub);
-        printf(GRN "2:  " ENDCOLOR );
+        printf(GRN "2:  " ENDCOLOR);
         print_bits_r(res128);
     }
 

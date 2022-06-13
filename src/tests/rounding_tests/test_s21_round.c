@@ -15,7 +15,7 @@ START_TEST(simple_round) {
 END_TEST
 
 Suite *suite_s21_round(void) {
-    Suite *s = suite_create("suite_s21_round");
+    Suite *s = suite_create(PRETTY_PRINT("s21_round"));
     TCase *tc = tcase_create("s21_round_tc");
 
     tcase_add_test(tc, simple_round);

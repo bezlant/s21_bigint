@@ -1,18 +1,17 @@
 #include "../s21_decimal_test.h"
 
 START_TEST(simple_float) {
-    s21_decimal a = {1, 0, 0, 0};
+    s21_decimal a = {5, 0, 0, 0};
     s21_decimal b = {3, 0, 0, 0};
     s21_decimal c = {0, 0, 0, 0};
     s21_div(a, b, &c);
-    s21_decimal a2 = {2, 0, 0, 0};
-    s21_decimal b2 = {3, 0, 0, 0};
-    s21_decimal c2 = {0, 0, 0, 0};
-    s21_div(a2, b2, &c2);
-    s21_decimal c3 = {0, 0, 0, 0};
-    s21_add(c, c2, &c3);
+    // s21_decimal a2 = {5, 0, 0, 0};
+    // s21_decimal b2 = {3, 0, 0, 0};
+    // s21_decimal c2 = {0, 0, 0, 0};
+    // s21_div(a2, b2, &c2);
+    // s21_decimal c3 = {0, 0, 0, 0};
+    // s21_add(c, c2, &c3);
     /* WORKS GOOD! */
-
 
 }
 END_TEST

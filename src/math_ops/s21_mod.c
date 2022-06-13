@@ -13,7 +13,8 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     if (s21_is_greater(value_2, value_1)) {
         /* Please, note, that this behaviour is just conventional. It is not universally accepted. */
         /* Another common option: result = sub(val2, val1) */
-        *result = value_1;
+        // *result = value_1;
+        code = s21_sub(value_1, value_2, result);
     } else {
         handle_exponent_mod(value_1, value_2, result, &code);
     }

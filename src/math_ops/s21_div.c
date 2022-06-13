@@ -1,4 +1,5 @@
 #include "../s21_decimal.h"
+#include "../tests/s21_decimal_test.h"
 
 static void handle_exponent_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result, int *code);
 static s21_decimal s21_integer_div(s21_decimal dividend, s21_decimal divisor, s21_decimal *result, int *code);
@@ -7,8 +8,6 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     if (eq_zero(value_2)) return S21_NAN;
 
     int code = ARITHMETIC_OK;
-
-    /* TODO: add mod checking to determine which version of division to launch (INT) vs (FLOAT) */
 
     handle_exponent_div(value_1, value_2, result, &code);
 
@@ -40,7 +39,36 @@ static void handle_exponent_div(s21_decimal value_1, s21_decimal value_2, s21_de
         init_zero(result);
         result->bits[0] = 1;
 
-        *result = s21_integer_div(value_1, value_2, result, code);
+        s21_decimal remainder = {0};
+        s21_decimal intdiv = {0};
+        const s21_decimal zero = {0};
+
+        *code = s21_mod(value_1, value_2, &remainder);
+        *code = s21_integer_div_wrapper(value_1, value_2, &intdiv);
+
+        if (!s21_is_equal_abs(remainder, zero)) {
+            // TODO: add floating point logic here //
+
+            while (!*code && !get_bit(remainder, 95)) {
+                *code = shiftl(&remainder);
+                // print_bits_r(remainder);
+            }
+
+            shiftr(&remainder);
+
+            set_sign_pos(&value_2);
+            set_sign_pos(&remainder);
+
+            *code = s21_integer_div_wrapper(remainder, value_2, &intdiv);
+            print_bits_r(intdiv);
+
+            *code = s21_add(intdiv, remainder, result);
+            print_bits_r(remainder);
+            printf(GRN "R: " ENDCOLOR);
+            print_bits_r(*result);
+        } else {
+            *code = s21_integer_div_wrapper(value_1, value_2, result);
+        }
 
         while (res_exp < 0) {
             *result = binary_multiplication(*result, get_power_of_ten(1), code);

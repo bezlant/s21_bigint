@@ -140,12 +140,16 @@ START_TEST(gcc_128_bits) {
 
     s21_sub(dec_a, dec_b, &dec_sub);
 
-#ifdef DEBUG
-    print_bits_r(res128);
-    print_bits_r(dec_sub);
-#endif
+    bool comp_res = s21_is_equal(res128, dec_sub);
 
-    ck_assert_int_eq(s21_is_equal(res128, dec_sub), TRUE);
+    if (comp_res == false) {
+        printf(RED "1:  " ENDCOLOR);
+        print_bits_r(dec_sub);
+        printf(GRN "2:  " ENDCOLOR );
+        print_bits_r(res128);
+    }
+
+    ck_assert_int_eq(comp_res, TRUE);
 }
 
 Suite *suite_s21_sub(void) {
@@ -155,7 +159,7 @@ Suite *suite_s21_sub(void) {
     /* tcase_add_test(tc, sub_test1); */
     /* tcase_add_test(tc, sub_test2); */
     /* tcase_add_loop_test(tc, sub_loop, 0, 1); */
-    tcase_add_loop_test(tc, gcc_128_bits, 0, 10000);
+    tcase_add_loop_test(tc, gcc_128_bits, 0, 10);
 
     suite_add_tcase(s, tc);
     return s;

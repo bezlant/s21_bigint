@@ -10,13 +10,12 @@
 
 #include "binary_api/s21_core.h"
 
-int smart_get_bit(s21_decimal a, int pos);
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
-s21_decimal s21_integer_div(s21_decimal dividend, s21_decimal divisor, s21_decimal *result, int *code);
+int s21_integer_div_wrapper(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 
 /* Comparison */
 

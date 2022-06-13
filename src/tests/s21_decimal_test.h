@@ -86,6 +86,7 @@ Suite *suite_s21_floor(void);
 Suite *suite_s21_round(void);
 Suite *suite_s21_truncate(void);
 Suite *suite_s21_negate(void);
+Suite *suite_s21_integer_div_wrapper(void);
 
 void run_tests(void);
 void run_testcase(Suite *testcase);

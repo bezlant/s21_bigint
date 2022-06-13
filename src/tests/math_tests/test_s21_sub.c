@@ -141,6 +141,12 @@ START_TEST(gcc_128_bits) {
 
     s21_decimal dec_a = ll_to_decimal(long_a);
     s21_decimal dec_b = ll_to_decimal(long_b);
+
+    printf(RED "1:  " ENDCOLOR);
+    print_bits_r(dec_a);
+    printf(GRN "2:  " ENDCOLOR);
+    print_bits_r(dec_b);
+
     s21_decimal dec_sub = {0};
 
     s21_sub(dec_a, dec_b, &dec_sub);
@@ -150,12 +156,10 @@ START_TEST(gcc_128_bits) {
 
     bool comp_res = s21_is_equal(res128, dec_sub);
 
-    if (comp_res == false) {
-        printf(RED "1:  " ENDCOLOR);
-        print_bits_r(dec_sub);
-        printf(GRN "2:  " ENDCOLOR);
-        print_bits_r(res128);
-    }
+    printf("3:  ");
+    print_bits_r(dec_sub);
+    // printf(GRN "2:  " ENDCOLOR);
+    // print_bits_r(res128);
 
     ck_assert_int_eq(comp_res, TRUE);
 }

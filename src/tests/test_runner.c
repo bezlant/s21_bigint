@@ -33,11 +33,13 @@ void run_testcase(Suite *testcase) {
 
 void run_tests(void) {
     Suite *list_cases[] = {
+        // suite_s21_integer_div_wrapper(),    // 🌱 [ FEW TESTS FAILED ]
+
         // suite_s21_mul(),                    // 🌱 [ NOT YET TESTED ]
         // suite_s21_round(),                  // 🌱 [ TESTS MISSING ] @bezlant
         // suite_s21_mod(),                    // 🌱 [ FEW TESTS FAILED ]
         // suite_s21_div(),                    // 🌱 [ FEW TESTS FAILED ]
-        suite_s21_from_float_to_decimal(),  // 🌱 [ TESTS MISSING ] @bezlant
+        suite_s21_from_float_to_decimal(),     // 🌱 [ TESTS MISSING ] @bezlant
 
         // suite_s21_sub(),                    // ✅
         // suite_s21_add(),                    // ✅

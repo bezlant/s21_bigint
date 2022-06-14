@@ -1,5 +1,5 @@
-#ifndef S21_DECIMAL
-#define S21_DECIMAL
+#ifndef SRC_S21_DECIMAL_H_
+#define SRC_S21_DECIMAL_H_
 
 #include <float.h>
 #include <limits.h>
@@ -55,4 +55,4 @@ void get_bit_string(float res, char *bits);
 void set_bits_from_string(char *bits, s21_decimal *result);
 float add_exponent(float val, int exp);
 
-#endif  //  S21_DECIMAL
+#endif  //  SRC_S21_DECIMAL_H_

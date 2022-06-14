@@ -46,9 +46,8 @@ static void handle_exponent_div(s21_decimal value_1, s21_decimal value_2, s21_de
         *code = s21_mod(value_1, value_2, &remainder);
         *code = s21_integer_div_wrapper(value_1, value_2, &intdiv);
 
-
         if (!s21_is_equal_abs(remainder, zero)) {
-            // TODO: add floating point logic here //
+            // TODO(@capricey): add floating point logic here //
 
             /* THIS LOOP IS INCORRECT */
             while (!*code && !get_bit(remainder, 95)) {
@@ -62,7 +61,7 @@ static void handle_exponent_div(s21_decimal value_1, s21_decimal value_2, s21_de
             set_sign_pos(&remainder);
 
             *code = s21_integer_div_wrapper(remainder, value_2, &intdiv);
-        print_bits_r(remainder);
+            print_bits_r(remainder);
             print_bits_r(intdiv);
 
             *code = s21_add(intdiv, remainder, result);
@@ -81,7 +80,9 @@ static void handle_exponent_div(s21_decimal value_1, s21_decimal value_2, s21_de
     }
 }
 
-static s21_decimal s21_integer_div(s21_decimal dividend, s21_decimal divisor, s21_decimal *result, int *code) {
+static s21_decimal
+s21_integer_div(s21_decimal dividend,
+                s21_decimal divisor, s21_decimal *result, int *code) {
     s21_decimal original_divisor = divisor;
     s21_decimal modified_dividend = {0};
     s21_decimal one = {0};

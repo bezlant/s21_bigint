@@ -11,9 +11,6 @@ int s21_from_decimal_to_float(s21_decimal src, float *dst) {
     for (int i = 0; i < 96; i++)
         *dst += pow(2, i) * get_bit(src, i);
 
-    /* 29 is max values in our number */
-    exponent = 29 - exponent;
-
     while (exponent--)
         *dst /= 10;
 

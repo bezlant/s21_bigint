@@ -28,7 +28,7 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
     int exponent = get_float_exponent(src);
 
     /* handle left part */
-    char bits[96] = {'\0'};
+    char bits[128] = {'\0'};
     get_bit_string(src, bits, exponent);
 
     set_bits_from_string(bits, dst);
@@ -38,7 +38,7 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
         set_sign_neg(dst);
 
     /* set exponent */
-    set_exponent(dst, exponent);
+    set_exponent(dst, D_MAX_EXP_VAL - exponent);
 
     return CONVERTATION_OK;
 }

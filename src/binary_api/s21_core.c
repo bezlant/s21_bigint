@@ -30,6 +30,8 @@ void s21_swap(s21_decimal *a, s21_decimal *b) {
     *b = tmp;
 }
 
+
+
 /**
  * @brief This function is used to generate 0,5 decimal value that is
  * needed by bank rounding.
@@ -37,7 +39,7 @@ void s21_swap(s21_decimal *a, s21_decimal *b) {
  * @return s21_decimal
  */
 
-s21_decimal get_05(void) {
+ s21_decimal get_05(void) {
     s21_decimal result;
     s21_from_int_to_decimal(5, &result);
     set_exponent(&result, 1);

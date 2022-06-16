@@ -5,7 +5,10 @@ CC 				 =	gcc
 ALL_TARGETS 	 = $(TARGET) $(TEST_EXE) # gcov_report
 ASAN 			 = 	#-fsanitize=address
 UBSAN			 =	#-fsanitize=undefined
-STDFLAGS 		 =	-g -c -Wall -Wextra -std=c11 -pedantic #-fanalyzer #-Werror
+STDFLAGS 		 =	-g -c -Wall -Wextra -std=c11 -pedantic $(C_OPTIMIZATION) #-fanalyzer #-Werror
+
+# Optimizaiton (https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html):
+C_OPTIMIZATION	 = -O0
 
 # Linking flags configuration
 LIBS 			 =	$(CHECK_LIB) $(GMP_LIB)
@@ -119,6 +122,10 @@ vg				: $(TEST_EXE)
 
 leaks			: $(TEST_EXE)
 				$(LEAKS) ./$(TEST_EXE)
+
+clangd			: fclean
+				bear -- make
+				mv compile_commands.json ../.vscode
 
 # Utility targets
 open 			:

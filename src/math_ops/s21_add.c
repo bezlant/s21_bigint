@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "../s21_decimal.h"
 
 static void handle_exponent_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result, int *code);
@@ -10,6 +12,8 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     if (s1 == POS && s2 == POS) {
         handle_exponent_add(value_1, value_2, result, &code);
     } else if (s1 == POS && s2 == NEG) {
+        // FIXME: THERE IS A CRITICAL BUG WITH SIGN HANDLING
+
         /* There was a BUG that caused stack overflow */
         set_sign_pos(&value_2);
         code = s21_sub(value_1, value_2, result);

@@ -62,7 +62,7 @@ static void handle_exponent_div(s21_decimal value_1, s21_decimal value_2,
          * the left */
         memset(result, 0, sizeof(s21_decimal));
         result->bits[0] = 1;
-
+        
         *result = s21_integer_div(value_1, value_2, result, code);
     }
 }

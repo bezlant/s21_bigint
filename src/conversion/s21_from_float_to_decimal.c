@@ -3,7 +3,7 @@
 
 static int get_float_exponent(float val) {
     int exponent = 0;
-    while (val > 1) {
+    while (val >= 1) {
         val /= 10;
         exponent++;
     }
@@ -30,7 +30,6 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
     /* handle left part */
     char bits[128] = {'\0'};
     get_bit_string(src, bits, exponent);
-
     set_bits_from_string(bits, dst);
 
     /* set sign */

@@ -2,7 +2,8 @@
 
 #include "../s21_decimal.h"
 
-static void handle_exponent_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result, int *code);
+static void handle_exponent_add(s21_decimal value_1, s21_decimal value_2,
+                                s21_decimal *result, int *code);
 
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int code = ARITHMETIC_OK;
@@ -12,9 +13,6 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     if (s1 == POS && s2 == POS) {
         handle_exponent_add(value_1, value_2, result, &code);
     } else if (s1 == POS && s2 == NEG) {
-        // FIXME: THERE IS A CRITICAL BUG WITH SIGN HANDLING
-
-        /* There was a BUG that caused stack overflow */
         set_sign_pos(&value_2);
         code = s21_sub(value_1, value_2, result);
     } else if (s1 == NEG && s2 == POS) {
@@ -32,11 +30,13 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     return code;
 }
 
-static void handle_exponent_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result, int *code) {
+static void handle_exponent_add(s21_decimal value_1, s21_decimal value_2,
+                                s21_decimal *result, int *code) {
     int exp_v1 = get_exponent(value_1);
     int exp_v2 = get_exponent(value_2);
 
-    if (exp_v2 > exp_v1) s21_swap(&value_1, &value_2);
+    if (exp_v2 > exp_v1)
+        s21_swap(&value_1, &value_2);
     int res_exp = min(exp_v1, exp_v2);
 
     s21_decimal value_2_origin = value_2;
@@ -54,7 +54,7 @@ static void handle_exponent_add(s21_decimal value_1, s21_decimal value_2, s21_de
             *result = value_2_origin;
         }
     } else {
-        /* (!) Normal addition with normalized exponents */
+        /* Normal addition with normalized exponents */
         *result = binary_addition(value_1, value_2, code);
     }
 

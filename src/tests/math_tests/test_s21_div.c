@@ -1,4 +1,5 @@
 #include "../s21_decimal_test.h"
+#include <stdio.h>
 
 START_TEST(gcc_128_bits) {
     long long long_a = get_random_ll() * rand();
@@ -206,13 +207,19 @@ START_TEST(random_float) {
 
     s21_decimal dec_div = {0};
 
+    printf("Dec A: \t E: %d \n", get_exponent(dec_a));
+    print_bits_r(dec_a);
+    printf("Dec B: \t E: %d \n", get_exponent(dec_b));
+    print_bits_r(dec_b);
+
     int code = s21_div(dec_a, dec_b, &dec_div);
 
 #ifdef DEBUG
-    printf("dec_div=");
+    printf("Res_decimal: \t E: %d \n", get_exponent(dec_div));
     print_bits_r(dec_div);
-    printf("res_float =");
+    printf("Res_float: \t E: %d \n", get_exponent(res_float));
     print_bits_r(res_float);
+    printf("\ndivided = %f\n", float_res);
 #endif
 
     int comp_res = s21_is_equal(res_float, dec_div);

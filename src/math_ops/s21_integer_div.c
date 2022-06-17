@@ -27,9 +27,6 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 
     int code = ARITHMETIC_OK;
 
-    /* For some reason mod breaks on any floating point values (probably due to lack of any normalizaiton */
-    /* FIXME add any kind of normalizatin ???*/
-
     int s1 = get_sign(value_1);
     int s2 = get_sign(value_2);
 
@@ -62,7 +59,7 @@ static void handle_exponent_div(s21_decimal value_1, s21_decimal value_2,
          * the left */
         memset(result, 0, sizeof(s21_decimal));
         result->bits[0] = 1;
-        
+
         *result = s21_integer_div(value_1, value_2, result, code);
     }
 }

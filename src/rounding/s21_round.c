@@ -57,25 +57,11 @@ int s21_round(s21_decimal value, s21_decimal *result) {
 
     s21_decimal rem = {0};
     s21_mod(truncated_mul10, get_power_of_ten(1), &rem);
-    /* s21_sub(value, truncated, &rem); */
 
 #ifdef DEBUG
     printf("rem = ");
     print_bits_r(rem);
 #endif
-
-    /* set_exponent(&rem, 0); */
-
-    /* s21_decimal divided = {0}; */
-
-    /* const s21_decimal ten = get_power_of_ten(1); */
-
-    /* while (s21_is_greater(rem, ten)) { */
-    /*     if (s21_div(rem, ten, &divided) != ARITHMETIC_OK) */
-    /*         return CONVERTATION_ERROR; */
-
-    /*     rem = divided; */
-    /* } */
 
     s21_decimal rounded = {0};
     int code = ARITHMETIC_OK;
@@ -83,8 +69,8 @@ int s21_round(s21_decimal value, s21_decimal *result) {
     /* +1 or leave it as it was*/
 
     int bank_rounding = 0;
-
     s21_from_decimal_to_int(rem, &bank_rounding);
+
 #ifdef DEBUG
     printf("bank_round = %d\n", bank_rounding);
 #endif

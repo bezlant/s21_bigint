@@ -21,6 +21,7 @@ typedef struct {
 // real zero_bit
 #define ZERO_BIT(X, POS) (X &= ~(1UL << POS));
 
+/* BUG #77 I'm pretty sure these values are wrong. Double check this */
 #define MAX_DECIMAL 7.92281625143e+28
 #define MIN_DECIMAL -7.92281625143e+28
 
@@ -117,8 +118,6 @@ int s21_is_not_equal_abs(s21_decimal a, s21_decimal b);
 
 int s21_check_infinity(int code, int sign);
 
-void get_bit_string(float res, char *bits, int exponent);
-void set_bits_from_string(char *bits, s21_decimal *result);
 float add_exponent(float val, int exp);
 
 int s21_integer_div_wrapper(s21_decimal value_1, s21_decimal value_2,

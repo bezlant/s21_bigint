@@ -106,6 +106,8 @@ START_TEST(random_float) {
 
     float float_res = float_a + float_b;
 
+#define  DEBUG
+
 #ifdef DEBUG
     printf("float_a = %f\n", float_a);
     printf("float_b = %f\n", float_b);
@@ -154,9 +156,9 @@ Suite *suite_s21_add(void) {
     // 3. hardcode very large numbers (decimal has 28 signs -> make up valid sums with that large numbers in binary calculator)
 
     tcase_add_loop_test(tc, random_float, 0, 1);
-    tcase_add_loop_test(tc, gcc_128_bits, 0, 100);
-    tcase_add_loop_test(tc, random_decimal_exp, 0, 100);
-    tcase_add_test(tc, overflow_test);
+    // tcase_add_loop_test(tc, gcc_128_bits, 0, 100);
+    // tcase_add_loop_test(tc, random_decimal_exp, 0, 100);
+    // tcase_add_test(tc, overflow_test);
 
     suite_add_tcase(s, tc);
     return s;

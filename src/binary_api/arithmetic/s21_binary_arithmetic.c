@@ -1,4 +1,4 @@
-#include "../s21_decimal.h"
+#include "../../s21_decimal.h"
 
 /**
     1. Init
@@ -24,8 +24,6 @@
 s21_decimal binary_addition(s21_decimal value_1, s21_decimal value_2,
                             int *err) {
     s21_decimal carry = {0};
-
-
 
     while (!eq_zero(value_2)) {
         memset(&carry, 0, sizeof(s21_decimal));
@@ -66,7 +64,6 @@ s21_decimal binary_multiplication(s21_decimal value_1, s21_decimal value_2,
                                   int *err) {
     s21_decimal result = {0};
     while (!eq_zero(value_2) && !(*err)) {
-
         if (!eq_zero(bit_and(value_2, get_power_of_ten(0)))) {
             result = binary_addition(result, value_1, err);
             if (*err) break;

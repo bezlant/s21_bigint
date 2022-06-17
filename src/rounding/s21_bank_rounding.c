@@ -42,6 +42,7 @@ void s21_bank_rounding(s21_decimal *dec, int times) {
         set_exponent(dec, old_exp - 1);
         s21_decimal new_value = s21_integer_div(*dec, get_power_of_ten(1), &new_value);
 
+        /* Interesting mask trick by Vlad. Remainder in mod(a, 100) can never be more than 100 */
         int mask = (127 & remainder.bits[0]);
 
         if (bank_rounding(mask)) {

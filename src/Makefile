@@ -123,6 +123,7 @@ vg				: $(TEST_EXE)
 leaks			: $(TEST_EXE)
 				$(LEAKS) ./$(TEST_EXE)
 
+# Configures clangd language server for VSCode, provides jump tp implementation feature
 clangd			: fclean
 				bear -- make
 				mv compile_commands.json ../.vscode

@@ -215,11 +215,15 @@ START_TEST(random_float) {
     int code = s21_div(dec_a, dec_b, &dec_div);
 
 #ifdef DEBUG
+
+
     printf("Res_decimal: \t E: %d \n", get_exponent(dec_div));
     print_bits_r(dec_div);
     printf("Res_float: \t E: %d \n", get_exponent(res_float));
     print_bits_r(res_float);
     printf("\ndivided = %f\n", float_res);
+
+
 #endif
 
     int comp_res = s21_is_equal(res_float, dec_div);

@@ -46,13 +46,6 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 
 static void handle_exponent_div(s21_decimal value_1, s21_decimal value_2,
                                 s21_decimal *result, int *code) {
-    int exp_v1 = get_exponent(value_1);
-    int exp_v2 = get_exponent(value_2);
-
-    // set_exponent(&value_1, 0);
-    // set_exponent(&value_2, 0);
-
-
     /* TODO add floating point division logic */
 
     /* 2 / 3 => 2 * 10^3 / 3 => 2000 / 3 => 666 / 10^3 => 0.66666666(6) */
@@ -71,16 +64,6 @@ static void handle_exponent_div(s21_decimal value_1, s21_decimal value_2,
         result->bits[0] = 1;
 
         *result = s21_integer_div(value_1, value_2, result, code);
-
-        printf("\nRESULT AFTER DIV: \n");
-        /* Проблема: после обнуления экспонент одно число необоснованно может оказаться больше второго */
-        // экспоненты должны не зануляться, а заравниваться к меньшей экспоненте
-        print_bits_r(*result);
-
-        // while (res_exp < 0) {
-        //     *result = binary_multiplication(*result, get_power_of_ten(1), code);
-        //     res_exp++;
-        // }
     }
 }
 

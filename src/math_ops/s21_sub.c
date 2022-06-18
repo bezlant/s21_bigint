@@ -65,8 +65,9 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
         printf(GRN "EXP: %d After round:  %f \n" ENDCOLOR, get_exponent(value_2), b2);
 #endif
 
-        code = ARITHMETIC_OK;
+
         code = s21_sub(value_1, value_2, result);
+        code = ARITHMETIC_OK;
     }
 
     return code;

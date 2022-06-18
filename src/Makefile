@@ -2,7 +2,7 @@
 CC 				 =	gcc
 
 # Compilation flags configuration
-ALL_TARGETS 	 = $(TARGET) $(TEST_EXE) gcov_report
+ALL_TARGETS 	 = $(TARGET) $(TEST_EXE) #gcov_report
 ASAN 			 = 	#-fsanitize=address
 UBSAN			 =	#-fsanitize=undefined
 STDFLAGS 		 =	-g -c -Wall -Wextra -std=c11 -pedantic $(C_OPTIMIZATION) # -fanalyzer -Werror #-Werror
@@ -156,4 +156,4 @@ lint 			: Makefile
 
 re 				: fclean all
 
-.PHONY 			: all clean fclean re open lint
+.PHONY 			: all clean fclean re open lint vg leaks clangd

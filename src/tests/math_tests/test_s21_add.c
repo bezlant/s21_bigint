@@ -151,6 +151,65 @@ START_TEST(random_float) {
     ck_assert_float_eq_tol(got_float, float_res, 1e-06);
 }
 
+
+START_TEST(target_float) {
+    float float_a = 85686.007812;
+    float float_b = -81643.296875;
+
+// float_a = 85686.007812
+// float_b = -81643.296875
+    // if (rand() % 2)
+    //     float_a *= -1;
+
+    // if (rand() % 2)
+    //     float_b *= -1;
+
+    // float_a = fabsf(float_a);
+    // float_b = fabsf(float_b);
+
+    float float_res = float_a + float_b;
+
+    // float_res = fabsf(float_res);
+
+#define  DEBUG
+#ifdef DEBUG
+    printf("float_a = %f\n", float_a);
+    printf("float_b = %f\n", float_b);
+    printf("float_sum (expected) = %f\n", float_res);
+#endif
+
+    s21_decimal expected = {0};
+    s21_from_float_to_decimal(float_res, &expected);
+
+    s21_decimal dec_a = {0};
+    s21_from_float_to_decimal(float_a, &dec_a);
+    s21_decimal dec_b = {0};
+    s21_from_float_to_decimal(float_b, &dec_b);
+
+    s21_decimal result = {0};
+    /* NOTE: SOMETIMES CODE IS INFINITY FOR UNKNOWN REASON */
+    int code = s21_add(dec_a, dec_b, &result);
+
+    float got_float = 0;
+    s21_from_decimal_to_float(result, &got_float);
+
+#ifdef DEBUG
+    printf("GOT_FLOAT (got dec -> got float)= %f\n", got_float);
+    printf("BELOW & ABOVE SOME LOSE OF PRECISION IS OK\n");
+    printf("------------------------------------------\n");
+    printf("result_exp   = %d\n", get_exponent(result));
+    printf("result   =");
+    print_bits_r(result);
+    printf("expected_exp = %d\n", get_exponent(expected));
+    printf("expected =");
+    print_bits_r(expected);
+    printf("------------------------------------------\n");
+#endif
+
+    ck_assert_int_eq(code, ARITHMETIC_OK);
+    ck_assert_float_eq_tol(got_float, float_res, 1e-06);
+}
+
 Suite *suite_s21_add(void) {
     Suite *s = suite_create(PRETTY_PRINT("s21_add"));
     TCase *tc = tcase_create("s21_add_tc");
@@ -161,6 +220,7 @@ Suite *suite_s21_add(void) {
     // 3. hardcode very large numbers (decimal has 28 signs -> make up valid sums with that large numbers in binary calculator)
 
     tcase_add_loop_test(tc, random_float, 0, 1);
+    tcase_add_loop_test(tc, target_float, 0, 1);
     // tcase_add_loop_test(tc, gcc_128_bits, 0, 100);
     // tcase_add_loop_test(tc, random_decimal_exp, 0, 100);
     // tcase_add_test(tc, overflow_test);

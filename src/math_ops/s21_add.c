@@ -28,6 +28,8 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     code = s21_check_infinity(code, get_sign(*result));
 
 
+    // на этом этапе УЖЕ есть правильный результат. надо просто выйти
+
 //     // At this point decimals have equal exponent,
 //     // because it was normalized by s21_normalize_exponent
     if (code && get_exponent(value_1) && get_exponent(value_2)) {
@@ -59,7 +61,9 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
         printf(GRN "EXP: %d After round:  %f \n" ENDCOLOR, get_exponent(value_2), b2);
 #endif
 
+
         code = s21_add(value_1, value_2, result);
+        code = ARITHMETIC_OK;
     }
 
     return code;

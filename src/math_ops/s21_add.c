@@ -32,9 +32,8 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 //     // because it was normalized by s21_normalize_exponent
     if (code && get_exponent(value_1) && get_exponent(value_2)) {
 
-        /* BUG: Signs are lost when doing converttation */
-#define DEBUG
 
+#define DEBUG
 #ifdef DEBUG
         printf(RED "\tBank rounding\n" ENDCOLOR);
         float a1, a2, b1, b2;

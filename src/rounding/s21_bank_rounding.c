@@ -70,7 +70,6 @@ void s21_bank_rounding(s21_decimal *dec, int times) {
             *dec = new_value;
             set_exponent(dec, old_exp - 1);
         }
-
         times--;
     }
 

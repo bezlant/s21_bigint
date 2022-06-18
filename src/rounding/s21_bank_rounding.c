@@ -52,5 +52,6 @@ void s21_bank_rounding(s21_decimal *dec, int times) {
         if (bank_rounding(mask)) {
             *dec = binary_addition(*dec, get_power_of_ten(0), &code);
         }
+        times--;
     }
 }

@@ -36,19 +36,18 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 //     // because it was normalized by s21_normalize_exponent
     if (code && get_exponent(value_1) && get_exponent(value_2)) {
 
-        /* BUG: Signs are lost when doing converttation */
+        // (!) SIGNS ARE DEFINITELY LOST /* BUG: Signs are lost when doing converttation */
 
 #define DEBUG
-
 #ifdef DEBUG
-        printf(RED "\tBank rounding\n" ENDCOLOR);
+        printf(RED "\tBank rounding (SUB) \n" ENDCOLOR);
         float a1, a2, b1, b2;
 
         s21_from_decimal_to_float(value_1, &a1);
         s21_from_decimal_to_float(value_2, &b1);
 
-        printf(RED "Before round: %f \n" ENDCOLOR, a1);
-        printf(RED "Before round: %f \n" ENDCOLOR, b1);
+        printf(GRN "EXP: %d Before round:  %f \n" ENDCOLOR, get_exponent(value_1), a1);
+        printf(GRN "EXP: %d Before round:  %f \n" ENDCOLOR, get_exponent(value_2), b1);
 #endif
 
         s21_bank_rounding(&value_1, 1);
@@ -57,8 +56,8 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 #ifdef DEBUG
         s21_from_decimal_to_float(value_1, &a2);
         s21_from_decimal_to_float(value_2, &b2);
-        printf(GRN "After round:  %f \n" ENDCOLOR, a2);
-        printf(GRN "After round:  %f \n" ENDCOLOR, b2);
+        printf(GRN "EXP: %d After round:  %f \n" ENDCOLOR, get_exponent(value_1), a2);
+        printf(GRN "EXP: %d After round:  %f \n" ENDCOLOR, get_exponent(value_2), b2);
 #endif
 
         code = s21_sub(value_1, value_2, result);

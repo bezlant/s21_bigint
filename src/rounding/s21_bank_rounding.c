@@ -54,9 +54,7 @@ void s21_bank_rounding(s21_decimal *dec, int times) {
 
         // s21_div(copy, get_power_of_ten(1), &new_value);
         // new_value = s21_integer_div(copy, get_power_of_ten(2), &new_value); does not work probably
-
-
-
+        
         set_exponent(dec, old_exp - 1);
 
         set_exponent(&copy, 0);
@@ -84,4 +82,6 @@ void s21_bank_rounding(s21_decimal *dec, int times) {
         }
         times--;
     }
+
+    set_sign(dec, sign);
 }

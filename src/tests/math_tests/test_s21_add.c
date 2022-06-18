@@ -126,13 +126,6 @@ START_TEST(random_float) {
 
     // float_res = fabsf(float_res);
 
-#define  DEBUG
-#ifdef DEBUG
-    printf("float_a = %f\n", float_a);
-    printf("float_b = %f\n", float_b);
-    printf("float_sum (expected) = %f\n", float_res);
-#endif
-
     s21_decimal expected = {0};
     s21_from_float_to_decimal(float_res, &expected);
 
@@ -148,21 +141,15 @@ START_TEST(random_float) {
     float got_float = 0;
     s21_from_decimal_to_float(result, &got_float);
 
-#ifdef DEBUG
-    printf("GOT_FLOAT (got dec -> got float)= %f\n", got_float);
-    printf("BELOW & ABOVE SOME LOSE OF PRECISION IS OK\n");
-    printf("------------------------------------------\n");
-    printf("result_exp   = %d\n", get_exponent(result));
-    printf("result   =");
-    print_bits_r(result);
-    printf("expected_exp = %d\n", get_exponent(expected));
-    printf("expected =");
-    print_bits_r(expected);
-    printf("------------------------------------------\n");
-#endif
+    if (got_float - float_res > 1e-6) {
+        printf("float_a = %f\n", float_a);
+        printf("float_b = %f\n", float_b);
+        printf("float_sum (expected) = %f\n", float_res);
+        printf("GOT: = %f\n", got_float);
+    }
 
     ck_assert_int_eq(code, ARITHMETIC_OK);
-    ck_assert_float_eq_tol(got_float, float_res, 1e-06);
+    ck_assert_float_eq_tol(got_float, float_res, 1e-6);
 }
 
 
@@ -238,7 +225,7 @@ Suite *suite_s21_add(void) {
     // 2. see if the early xoring is needed (probably NO, due to not negating 1 as in sub binary algo)
     // 3. hardcode very large numbers (decimal has 28 signs -> make up valid sums with that large numbers in binary calculator)
 
-    // tcase_add_loop_test(tc, random_float, 0, 1);
+    tcase_add_loop_test(tc, random_float, 0, 1);
     // tcase_add_loop_test(tc, target_float, 0, 1);
     tcase_add_loop_test(tc, gcc_128_bits, 0, 5000);
     // tcase_add_loop_test(tc, random_decimal_exp, 0, 100);

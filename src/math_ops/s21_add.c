@@ -31,6 +31,12 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 //     // At this point decimals have equal exponent,
 //     // because it was normalized by s21_normalize_exponent
     if (code && get_exponent(value_1) && get_exponent(value_2)) {
+        static int iter = 1;
+        printf("\n POS: [%d]\n", iter);
+        printf("\n CODE: [%d]\n", code);
+        printf("S1: \t%d S2\t%d\n", s1, s2);
+        iter++;
+
 #define DEBUG
 #ifdef DEBUG
         printf(RED "\tBank rounding (ADD) \n" ENDCOLOR);

@@ -39,7 +39,6 @@ static int bank_rounding(int n) {
  */
 
 void s21_bank_rounding(s21_decimal *dec, int times) {
-    int code = 0;
     int sign = get_sign(*dec);
     set_sign_pos(dec);
     s21_decimal copy = *dec;

@@ -17,7 +17,6 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
             handle_exponent_sub(value_2, value_1, result, &code);
             set_sign_neg(result);
         }
-
     } else if (s1 == POS && s2 == NEG) {
         set_sign_pos(&value_2);
         code = s21_add(value_1, value_2, result);
@@ -35,6 +34,12 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 //     // At this point decimals have equal exponent,
 //     // because it was normalized by s21_normalize_exponent
     if (code && get_exponent(value_1) && get_exponent(value_2)) {
+        code = 0;
+        static int iter = 1;
+        printf("\nNEG: [%d]\n", iter);
+        printf("\n CODE: [%d]\n", code);
+        printf("S1: \t%d S2\t%d\n", s1, s2);
+        iter++;
 
         // (!) SIGNS ARE DEFINITELY LOST /* BUG: Signs are lost when doing converttation */
 
@@ -60,6 +65,7 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
         printf(GRN "EXP: %d After round:  %f \n" ENDCOLOR, get_exponent(value_2), b2);
 #endif
 
+        code = ARITHMETIC_OK;
         code = s21_sub(value_1, value_2, result);
     }
 
@@ -78,6 +84,7 @@ static void handle_exponent_sub(s21_decimal value_1, s21_decimal value_2,
     s21_normalize_decimal_pair(&value_1, &value_2, code);
 
     if (*code == S21_INFINITY) {
+        printf(REDB "CAN'T NORMALIZE!\n" ENDCOLOR);
         /* Bank rounding happens when we fail to normalize compounds */
         if (s21_is_greater_or_equal(value_1, get_05())) {
             /* -1 */

@@ -1,5 +1,6 @@
 #include "../s21_decimal_test.h"
 #include <math.h>
+#include <stdio.h>
 
 START_TEST(overflow_test) {
     s21_decimal a = {0};
@@ -17,14 +18,15 @@ START_TEST(overflow_test) {
 END_TEST
 
 START_TEST(gcc_128_bits) {
-    long long long_a = get_random_ll() * rand();
-    long long long_b = get_random_ll() * rand();
+    long long long_a = get_random_ll();
+    long long long_b = get_random_ll();
 
     if (rand() % 2)
         long_a *= -1;
 
     if (rand() % 2)
         long_b *= -1;
+
 
     __int128_t a = long_a;
     __int128_t b = long_b;
@@ -47,8 +49,20 @@ START_TEST(gcc_128_bits) {
         print_bits_r(dec_sum);
 #endif
 
+        int res = s21_is_equal(res128, dec_sum);
+
+        if (res == 0) {
+            printf("%lld \n", long_a);
+            printf("(+) \n");
+            printf("%lld \n", long_b);
+
+            printf("=== (exp, got)\n");
+            print_python(res128);
+            print_python(dec_sum);
+        }
+
         ck_assert_int_eq(code, ARITHMETIC_OK);
-        ck_assert_int_eq(s21_is_equal(res128, dec_sum), TRUE);
+        ck_assert_int_eq(res, TRUE);
     }
 }
 END_TEST
@@ -202,7 +216,12 @@ START_TEST(target_float) {
     print_bits_r(result);
     printf("expected_exp = %d\n", get_exponent(expected));
     printf("expected =");
-    print_bits_r(expected);
+    s21_decimal tmp = {0};
+    s21_decimal t = get_power_of_ten(get_exponent(expected));
+    set_sign_pos(&expected);
+    set_exponent(&expected, 0);
+    s21_integer_div(expected, t, &tmp);
+    print_bits_r(tmp);
     printf("------------------------------------------\n");
 #endif
 
@@ -219,9 +238,9 @@ Suite *suite_s21_add(void) {
     // 2. see if the early xoring is needed (probably NO, due to not negating 1 as in sub binary algo)
     // 3. hardcode very large numbers (decimal has 28 signs -> make up valid sums with that large numbers in binary calculator)
 
-    tcase_add_loop_test(tc, random_float, 0, 1);
-    tcase_add_loop_test(tc, target_float, 0, 1);
-    // tcase_add_loop_test(tc, gcc_128_bits, 0, 100);
+    // tcase_add_loop_test(tc, random_float, 0, 1);
+    // tcase_add_loop_test(tc, target_float, 0, 1);
+    tcase_add_loop_test(tc, gcc_128_bits, 0, 5000);
     // tcase_add_loop_test(tc, random_decimal_exp, 0, 100);
     // tcase_add_test(tc, overflow_test);
 

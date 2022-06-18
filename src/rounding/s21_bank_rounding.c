@@ -51,7 +51,12 @@ void s21_bank_rounding(s21_decimal *dec, int times) {
 
         set_exponent(dec, 0);
         s21_decimal new_value = {0};
-        new_value = s21_integer_div(copy, get_power_of_ten(1), &new_value);
+
+        // s21_div(copy, get_power_of_ten(1), &new_value);
+        // new_value = s21_integer_div(copy, get_power_of_ten(2), &new_value); does not work probably
+
+
+
         set_exponent(dec, old_exp - 1);
 
         set_exponent(&copy, 0);
@@ -67,20 +72,16 @@ void s21_bank_rounding(s21_decimal *dec, int times) {
         int mask = (127 & remainder.bits[0]);
 
         if (bank_rounding(mask)) {
-            printf("ADDING ONE!\n");
-            s21_decimal ten = get_power_of_ten(0);
-            set_exponent(&ten, old_exp - 1);
-            print_bits_r(ten);
-            set_exponent(dec, old_exp - 1);
+            s21_decimal one = get_power_of_ten(0);
+            set_exponent(&one, old_exp - 1);
 
-            s21_add(*dec, ten, dec);
+            s21_decimal tmp = {0};
+
+            (void)s21_add(*dec, one, &tmp);
+
+            *dec = tmp;
 
         }
         times--;
-    }
-
-    if (sign) {
-        set_sign_neg(dec);
-        printf("I HAD NEGATIVE SIGN!\n");
     }
 }

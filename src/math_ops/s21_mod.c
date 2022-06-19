@@ -1,9 +1,9 @@
 #include "../s21_decimal.h"
 
-void handle_exponent_mod(s21_decimal value_1, s21_decimal value_2,
-                         s21_decimal *result, int *code);
+void handle_exponent_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result, int *code);
 
 int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+    memset(result, 0, sizeof(*result));
     if (eq_zero(value_2))
         return S21_NAN;
 
@@ -29,8 +29,7 @@ int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     return code;
 }
 
-void handle_exponent_mod(s21_decimal value_1, s21_decimal value_2,
-                         s21_decimal *result, int *code) {
+void handle_exponent_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result, int *code) {
     int exp_v1 = get_exponent(value_1);
     int exp_v2 = get_exponent(value_2);
 
@@ -42,8 +41,7 @@ void handle_exponent_mod(s21_decimal value_1, s21_decimal value_2,
     s21_normalize_decimal_pair(&value_1, &value_2, code);
 
     // Edge case. mod by 1
-    if (s21_is_equal(value_2, get_power_of_ten(0)) ||
-        s21_is_equal(value_1, value_2)) {
+    if (s21_is_equal(value_2, get_power_of_ten(0)) || s21_is_equal(value_1, value_2)) {
         const s21_decimal zero = {0};
         *result = zero;
         *code = ARITHMETIC_OK;

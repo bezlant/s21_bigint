@@ -10,7 +10,7 @@ static int get_float_exponent(double val) {
 }
 
 int s21_from_float_to_decimal(float src, s21_decimal *dst) {
-
+    memset(dst, 0, sizeof(*dst));
     if (!isnormal(src))
         return CONVERTATION_ERROR;
     if (src > MAX_DECIMAL || src < MIN_DECIMAL)

@@ -1,10 +1,9 @@
 #include "../../s21_decimal_test.h"
 
 START_TEST(float_to_dec) {
-    s21_decimal res = {0};
+    s21_decimal res;
 
-    float expected =
-        get_random_float(-0.411349519359193591, 1.4113458138581851);
+    float expected = get_random_float(FLT_MIN, FLT_MAX);
     int err = s21_from_float_to_decimal(expected, &res);
     float got = 0;
     s21_from_decimal_to_float(res, &got);
@@ -26,7 +25,7 @@ Suite *suite_s21_from_float_to_decimal(void) {
     Suite *s = suite_create(PRETTY_PRINT("s21_from_float_to_decimal"));
     TCase *tc = tcase_create("s21_from_float_to_decimal_tc");
 
-    tcase_add_loop_test(tc, float_to_dec, 0, 100);
+    tcase_add_loop_test(tc, float_to_dec, 0, 1);
 
     suite_add_tcase(s, tc);
     return s;

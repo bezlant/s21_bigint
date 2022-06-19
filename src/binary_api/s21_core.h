@@ -40,4 +40,4 @@ int max(int a, int b);
 int min(int a, int b);
 void s21_swap(s21_decimal *a, s21_decimal *b);
 
-#endif  // SRC_BINARY_API_S21_CORE_H_
+#endif // SRC_BINARY_API_S21_CORE_H_

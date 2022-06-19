@@ -113,14 +113,14 @@ START_TEST(random_float) {
 
     float float_b = get_random_float(-85818.51851, 85818.51851);
 
-    if (rand() % 2)
-        float_a *= -1;
+    // if (rand() % 2)
+    //     float_a *= -1;
 
-    if (rand() % 2)
-        float_b *= -1;
+    // if (rand() % 2)
+    //     float_b *= -1;
 
-    // float_a = fabsf(float_a);
-    // float_b = fabsf(float_b);
+    float_a = fabsf(float_a);
+    float_b = fabsf(float_b);
 
     float float_res = float_a + float_b;
 
@@ -207,7 +207,6 @@ START_TEST(target_float) {
     s21_decimal t = get_power_of_ten(get_exponent(expected));
     set_sign_pos(&expected);
     set_exponent(&expected, 0);
-    s21_integer_div(expected, t, &tmp);
     print_bits_r(tmp);
     printf("------------------------------------------\n");
 #endif
@@ -225,7 +224,7 @@ Suite *suite_s21_add(void) {
     // 2. see if the early xoring is needed (probably NO, due to not negating 1 as in sub binary algo)
     // 3. hardcode very large numbers (decimal has 28 signs -> make up valid sums with that large numbers in binary calculator)
 
-    tcase_add_loop_test(tc, random_float, 0, 1);
+    tcase_add_loop_test(tc, random_float, 0, 5);
     // tcase_add_loop_test(tc, target_float, 0, 1);
     tcase_add_loop_test(tc, gcc_128_bits, 0, 5000);
     // tcase_add_loop_test(tc, random_decimal_exp, 0, 100);

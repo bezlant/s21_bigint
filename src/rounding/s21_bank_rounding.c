@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #include <stdio.h>
+=======
+#include "../s21_decimal.h"
+>>>>>>> 2ae3e96eaa63686216f49d600198b1f333803c56
 
 #include "../s21_decimal.h"
 #include "../tests/s21_decimal_test.h"
@@ -33,6 +37,8 @@ static int bank_rounding(int n) {
 /**
  * @brief Applies bank rounding to provided decimal. Bank rounding can never overflow a decimal,
  * if it is used correctly (i.e. if the decimal has exponent >= 1).
+ *
+ * @warning (@bezlant): code might seem like a mess but it really works.
  *
  * @param dec - Target of bank rounding.
  * @param times - Times the rounding is applied.

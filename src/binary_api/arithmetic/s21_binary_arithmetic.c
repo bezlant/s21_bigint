@@ -21,8 +21,7 @@
     5. Если Керри не ноль (если еще есть что прибавлять), то продолжаем цикл
  */
 
-s21_decimal binary_addition(s21_decimal value_1, s21_decimal value_2,
-                            int *err) {
+s21_decimal binary_addition(s21_decimal value_1, s21_decimal value_2, int *err) {
     s21_decimal carry = {0};
 
     s21_decimal origin_1 = value_1;
@@ -40,18 +39,17 @@ s21_decimal binary_addition(s21_decimal value_1, s21_decimal value_2,
             break;
     }
 
-    if (*err && get_exponent(origin_1) > 0 && get_exponent(origin_2) > 0) {
-        s21_bank_rounding(&origin_1, 1);
-        s21_bank_rounding(&origin_2, 1);
+    // if (*err && get_exponent(origin_1) > 0 && get_exponent(origin_2) > 0) {
+    //     s21_bank_rounding(&origin_1, 1);
+    //     s21_bank_rounding(&origin_2, 1);
 
-        return binary_addition(origin_1, origin_2, err);
-    }
+    //     return binary_addition(origin_1, origin_2, err);
+    // }
 
     return value_1;
 }
 
-s21_decimal binary_subtraction(s21_decimal value_1, s21_decimal value_2,
-                               int *err) {
+s21_decimal binary_subtraction(s21_decimal value_1, s21_decimal value_2, int *err) {
     s21_decimal carry = {0};
 
     s21_decimal origin_1 = value_1;
@@ -82,13 +80,13 @@ s21_decimal binary_subtraction(s21_decimal value_1, s21_decimal value_2,
     return value_1;
 }
 
-s21_decimal binary_multiplication(s21_decimal value_1, s21_decimal value_2,
-                                  int *err) {
+s21_decimal binary_multiplication(s21_decimal value_1, s21_decimal value_2, int *err) {
     s21_decimal result = {0};
     while (!eq_zero(value_2) && !(*err)) {
         if (!eq_zero(bit_and(value_2, get_power_of_ten(0)))) {
             result = binary_addition(result, value_1, err);
-            if (*err) break;
+            if (*err)
+                break;
         }
 
         *err = shiftl(&value_1);

@@ -1,10 +1,7 @@
 #include <math.h>
 #include <stdio.h>
-<<<<<<< HEAD
-=======
 
 #include "../s21_decimal_test.h"
->>>>>>> 2ae3e96eaa63686216f49d600198b1f333803c56
 
 START_TEST(overflow_test) {
     s21_decimal a = {0};
@@ -25,12 +22,11 @@ START_TEST(gcc_128_bits) {
     long long long_a = get_random_ll();
     long long long_b = get_random_ll();
 
-    if (rand() % 2)
-        long_a *= -1;
+    // if (rand() % 2)
+    // long_a *= -1;
 
-    if (rand() % 2)
-        long_b *= -1;
-
+    // if (rand() % 2)
+    // long_b *= -1;
 
     __int128_t a = long_a;
     __int128_t b = long_b;
@@ -43,27 +39,34 @@ START_TEST(gcc_128_bits) {
 
     int code = s21_add(dec_a, dec_b, &dec_sum);
 
+#define DEBUG
 #ifdef DEBUG
     printf("CODE %d \n", code);
 #endif
 
     if (code == ARITHMETIC_OK) {
 #ifdef DEBUG
-        print_bits_r(res128);
+        printf("A: exp = %d\n", get_exponent(dec_a));
+        print_bits_r(dec_a);
+        printf("B: exp = %d\n", get_exponent(dec_b));
+        print_bits_r(dec_b);
+
+        printf("GOT:\n");
         print_bits_r(dec_sum);
+        printf("EXPECTED:\n");
+        print_bits_r(res128);
 #endif
 
         int res = s21_is_equal(res128, dec_sum);
+        // if (res == 0) {
+        printf("%lld \n", long_a);
+        printf("(+) \n");
+        printf("%lld \n", long_b);
 
-        if (res == 0) {
-            printf("%lld \n", long_a);
-            printf("(+) \n");
-            printf("%lld \n", long_b);
-
-            printf("=== (exp, got)\n");
-            print_python(res128);
-            print_python(dec_sum);
-        }
+        printf("=== (exp, got)\n");
+        print_python(res128);
+        print_python(dec_sum);
+        // }
 
         ck_assert_int_eq(code, ARITHMETIC_OK);
         ck_assert_int_eq(res, TRUE);
@@ -117,20 +120,6 @@ START_TEST(random_positive_float) {
 
     float float_b = get_random_float(-85818.51851, 85818.51851);
 
-<<<<<<< HEAD
-    // if (rand() % 2)
-    //     float_a *= -1;
-
-    // if (rand() % 2)
-    //     float_b *= -1;
-
-    float_a = fabsf(float_a);
-    float_b = fabsf(float_b);
-
-    float float_res = float_a + float_b;
-
-    // float_res = fabsf(float_res);
-=======
     float_a = fabsf(float_a);
     float_b = fabsf(float_b);
 
@@ -175,7 +164,6 @@ START_TEST(random_negative_float) {
     float float_res = float_a + float_b;
 
     float_res = fabsf(float_res);
->>>>>>> 2ae3e96eaa63686216f49d600198b1f333803c56
 
     s21_decimal expected = {0};
     s21_from_float_to_decimal(float_res, &expected);
@@ -203,22 +191,13 @@ START_TEST(random_negative_float) {
     ck_assert_float_eq_tol(got_float, float_res, 1e-6);
 }
 
-<<<<<<< HEAD
-
-=======
 // This test exist for easy testing of failing numbers. Please, do not delete it.
->>>>>>> 2ae3e96eaa63686216f49d600198b1f333803c56
 START_TEST(target_float) {
     float float_a = 85686.007812;
     float float_b = -81643.296875;
 
-<<<<<<< HEAD
-// float_a = 85686.007812
-// float_b = -81643.296875
-=======
     // float_a = 85686.007812
     // float_b = -81643.296875
->>>>>>> 2ae3e96eaa63686216f49d600198b1f333803c56
     // if (rand() % 2)
     //     float_a *= -1;
 
@@ -284,7 +263,6 @@ START_TEST(random_signed_floats) {
     float got_float = 0;
     s21_from_decimal_to_float(result, &got_float);
 
-<<<<<<< HEAD
 #ifdef DEBUG
     printf("GOT_FLOAT (got dec -> got float)= %f\n", got_float);
     printf("BELOW & ABOVE SOME LOSE OF PRECISION IS OK\n");
@@ -301,14 +279,12 @@ START_TEST(random_signed_floats) {
     print_bits_r(tmp);
     printf("------------------------------------------\n");
 #endif
-=======
     if (got_float - float_res > 1e-6) {
         printf("float_a = %f\n", float_a);
         printf("float_b = %f\n", float_b);
         printf("float_sum (expected) = %f\n", float_res);
         printf("GOT: = %f\n", got_float);
     }
->>>>>>> 2ae3e96eaa63686216f49d600198b1f333803c56
 
     ck_assert_int_eq(code, ARITHMETIC_OK);
     ck_assert_float_eq_tol(got_float, float_res, 1e-6);
@@ -318,21 +294,14 @@ Suite *suite_s21_add(void) {
     Suite *s = suite_create(PRETTY_PRINT("s21_add"));
     TCase *tc = tcase_create("s21_add_tc");
 
-
-<<<<<<< HEAD
-    tcase_add_loop_test(tc, random_float, 0, 5);
     // tcase_add_loop_test(tc, target_float, 0, 1);
     tcase_add_loop_test(tc, gcc_128_bits, 0, 5000);
-=======
-    // tcase_add_loop_test(tc, target_float, 0, 1);
-    // tcase_add_loop_test(tc, gcc_128_bits, 0, 5000);
->>>>>>> 2ae3e96eaa63686216f49d600198b1f333803c56
     // tcase_add_loop_test(tc, random_decimal_exp, 0, 100);
     // tcase_add_test(tc, overflow_test);
 
-    tcase_add_loop_test(tc, random_positive_float, 0, 1);
-    tcase_add_loop_test(tc, random_negative_float, 0, 1);
-    tcase_add_loop_test(tc, random_signed_floats, 0, 1);
+    // tcase_add_loop_test(tc, random_positive_float, 0, 1);
+    // tcase_add_loop_test(tc, random_negative_float, 0, 1);
+    // tcase_add_loop_test(tc, random_signed_floats, 0, 1);
 
     suite_add_tcase(s, tc);
     return s;

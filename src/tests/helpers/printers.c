@@ -1,11 +1,7 @@
 #include <stdio.h>
 
 #include "../s21_decimal_test.h"
-<<<<<<< HEAD
-#include <stdio.h>
-=======
 #include "gmp.h"
->>>>>>> 2ae3e96eaa63686216f49d600198b1f333803c56
 
 void print_mpz_binary(mpz_t mpz_val) {
     mpz_out_str(stdout, 2, mpz_val);
@@ -62,11 +58,7 @@ void print_bits_r(s21_decimal d) {
 }
 
 void print_string(char *src, s21_decimal d) {
-<<<<<<< HEAD
-        for (int i = 3; i >= 0; --i) {
-=======
     for (int i = 3; i >= 0; --i) {
->>>>>>> 2ae3e96eaa63686216f49d600198b1f333803c56
         if (i == 2)
             sprintf(src++, " ");
         int x = 28;

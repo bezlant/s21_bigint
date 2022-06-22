@@ -7,9 +7,11 @@ static int bank_rounding(int n);
 
 /**
  * @brief Bank rounding logic. From wiki:
- * "Rather than rounding 0.5 and higher up, and 0.4 and lower down, bankers rounding rounds 0.5 to the nearest even number."
+ * "Rather than rounding 0.5 and higher up, and 0.4 and lower down, bankers
+ * rounding rounds 0.5 to the nearest even number."
  *
- * @param n - int [0; 99], as we need 2 numbers to decide whether or not applu bank rounding
+ * @param n - int [0; 99], as we need 2 numbers to decide whether or not applu
+ * bank rounding
  * @return int - 1 if the rounding is applied, 0 - otherwise
  */
 
@@ -31,8 +33,9 @@ static int bank_rounding(int n) {
 }
 
 /**
- * @brief Applies bank rounding to provided decimal. Bank rounding can never overflow a decimal,
- * if it is used correctly (i.e. if the decimal has exponent >= 1).
+ * @brief Applies bank rounding to provided decimal. Bank rounding can never
+ * overflow a decimal, if it is used correctly (i.e. if the decimal has exponent
+ * >= 1).
  *
  * @warning (@bezlant): code might seem like a mess but it really works.
  *
@@ -49,7 +52,8 @@ void s21_bank_rounding(s21_decimal *dec, int times) {
     set_sign_pos(dec);
 
     while (times > 0) {
-        s21_decimal mod = {0}, ten = get_power_of_ten(1), hun = get_power_of_ten(2);
+        s21_decimal mod = {0}, ten = get_power_of_ten(1),
+                    hun = get_power_of_ten(2);
 
         s21_int_mod(*dec, hun, &mod);
 
@@ -60,11 +64,11 @@ void s21_bank_rounding(s21_decimal *dec, int times) {
         set_exponent(dec, exp - 1);
 
         if (bank_rounding(mask)) {
-            // THIS BREAKS EVERYTHING (!) BINARY ADDITION IS TOO STUPID AND ASSUMS WE HAVE 0 EXP
-            s21_decimal one = {1, 0, 0, 0};
+            s21_decimal one = {0};
+            one.bits[0] = 1;
             s21_decimal copy = *dec;
+            set_exponent(one, exp - 1);
             *dec = binary_addition(copy, one, &code);
-            set_exponent(dec, exp - 1);
         }
 
         times--;
@@ -73,22 +77,3 @@ void s21_bank_rounding(s21_decimal *dec, int times) {
     set_sign(dec, sign);
 }
 
-// int bank_round(s21_decimal *a, int n) {
-//     while (n--) {
-//         s21_decimal mod_res = init_zero_decimal(), ten, hun;
-//         s21_from_int_to_decimal(100, &hun);
-//         s21_from_int_to_decimal(10, &ten);
-//         stupid_mod(*a, hun, &mod_res);
-//         // d_print_decimal(*a);
-//         // change_endian(&mod_res);
-//         int mask = 127 & mod_res.bits[0];
-//         int_div(*a, ten, a);
-//         int exp = get_exponent(*a) - 1;
-//         set_exponent(a, exp);
-//         if (bank_rounding(mask)) {
-//             s21_decimal one = {1, 0, 0, 0};
-//             very_stupid_add(*a, one, a, 0, 0);
-//         }
-//     }
-//     return 0;
-// }

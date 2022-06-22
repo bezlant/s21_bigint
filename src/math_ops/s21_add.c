@@ -8,7 +8,8 @@ static void s21_sum_handle_signs(int s1, int s2, s21_decimal value_1, s21_decima
 
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     memset(result, 0, sizeof(*result));
-    int code = ARITHMETIC_OK;
+        int code = ARITHMETIC_OK;
+
 
     s21_normalize_decimal_pair(&value_1, &value_2, &code);
 

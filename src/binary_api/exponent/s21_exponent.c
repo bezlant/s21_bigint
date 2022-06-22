@@ -19,17 +19,23 @@ void s21_normalize_decimal_pair(s21_decimal *a, s21_decimal *b, int *overflow) {
     s21_decimal cur = (e1 < e2) ? *a : *b;
 
     while (cur_exp != target_exp && cur_exp < 28 && !(*overflow)) {
+        // maybe this does not return last thing that I expected
+        // if this is not overflow, I should get CUR in TMP value
         cur = binary_multiplication(cur, get_power_of_ten(1), overflow);
         cur_exp++;
         set_exponent(&cur, cur_exp);
     }
 
     if (!*overflow) {
+        // THIS code should always be executed, even in case of overflow
+        // *a <== tmp
         if (e1 < e2)
             *a = cur;
         else
             *b = cur;
     } else {
+        // BANK ROUNDING SHOULD BE applicable to противоположная variable
+        // that I tried to multiply
         s21_bank_rounding(&cur, target_exp - cur_exp);
     }
 }

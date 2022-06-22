@@ -22,13 +22,18 @@ int s21_floor(s21_decimal value, s21_decimal *result) {
     int sign = get_sign(value);
     set_sign_pos(&value);
 
+    // value - truncated => something. smartly check if that something was zero
+    // instead of EXPONENT check in if below
     s21_decimal truncated = {0};
     s21_truncate(value, &truncated);
 
     /* Round down for negative numbers -12.321351 becomes -13.00000 */
+    // FIX VLAD'S 130.0 case having exponent but being целое (even)
+    // try to FMOD 1
     if (sign == NEG && exponent) {
         s21_decimal tmp = {0};
         /* i.e -420.00 - 1 = -421.00*/
+        // this check is useless as overflow can never happen (@bezlant)
         if (s21_add(truncated, get_power_of_ten(0), &tmp))
             return CONVERTATION_ERROR;
         truncated = tmp;
@@ -39,6 +44,7 @@ int s21_floor(s21_decimal value, s21_decimal *result) {
         *result = value;
     } else {
         while (tmp_exp--) {
+            // WTF (?)
             if (s21_mul(truncated, get_power_of_ten(1), result))
                 return CONVERTATION_ERROR;
             truncated = *result;

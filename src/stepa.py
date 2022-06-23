@@ -72,7 +72,7 @@ class MyDecimal:
 
     def print(self, human: bool = False, base: bool = False):
         if (human):
-            print(f'\t\tFINALLY:\t{self.decimal:.28f}')
+            print(f'\t\t{self.decimal:.28f}')
 
 #define RED "\033[0;31m"
 #define BRED "\033[1;31m"

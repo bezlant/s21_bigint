@@ -42,9 +42,12 @@ START_TEST(gcc_128_bits) {
     // if (rand() % 2)
     // long_a *= -1;
 
+<<<<<<< HEAD
     // if (rand() % 2)
     // long_b *= -1;
 
+=======
+>>>>>>> 8a334567b3df95d54efff7b53d99c1bd33817214
     __int128_t a = long_a;
     __int128_t b = long_b;
     __int128_t sum = a + b;
@@ -285,7 +288,6 @@ START_TEST(random_signed_floats) {
     printf("expected_exp = %d\n", get_exponent(expected));
     printf("expected =");
     s21_decimal tmp = {0};
-    s21_decimal t = get_power_of_ten(get_exponent(expected));
     set_sign_pos(&expected);
     set_exponent(&expected, 0);
     print_bits_r(tmp);

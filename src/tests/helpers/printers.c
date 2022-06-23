@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include "../s21_decimal_test.h"
 #include "gmp.h"
 
@@ -86,7 +84,9 @@ char *print_python_debug(s21_decimal dec) {
     char dec1[50000] = {0};
     print_string(dec1, dec);
     char cmd[90000] = {0};
-    sprintf(cmd, "echo  \"%s\"  | python3 /Users/posidoni/s21_decimal/src/stepa.py", dec1);
+    sprintf(cmd,
+            "echo  \"%s\"  | python3 /Users/posidoni/s21_decimal/src/stepa.py",
+            dec1);
     system(cmd);
 
     return NULL;

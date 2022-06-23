@@ -42,7 +42,6 @@ void run_tests(void) {
                            //    suite_s21_from_float_to_decimal(),  // ⚠️
                            //    suite_s21_floor(),                  // ⚠️
                            //    suite_s21_from_decimal_to_float(),  // ⚠️
-
                            //    suite_s21_is_less(),                // ✅
                            //    suite_s21_truncate(),               // ✅
                            //    suite_s21_from_int_to_decimal(),    // ✅
